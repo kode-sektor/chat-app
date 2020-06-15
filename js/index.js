@@ -3,6 +3,9 @@
 const socket = io()
 
 // Send a message to say that I've connected
+
+// alert(type in your name)
+
 socket.emit('newuser', {user: 'Grace Hopper'})
 
 // Event listener, waiting for an incoming "newuser"

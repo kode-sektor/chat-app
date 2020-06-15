@@ -28,3 +28,8 @@ ul.ul {
 	margin-inline-end: 0px;
 	padding-inline-start: 40px;
 }
+a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
