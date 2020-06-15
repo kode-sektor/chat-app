@@ -7,21 +7,24 @@
 		<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/index.css">
+		<link rel="stylesheet" href="css/responsiveness.css">
+		<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200&family=Montserrat:wght@500&display=swap" rel="stylesheet">
 	</head>
 	<body>
 
-		<div id="messages"></div>
-		<!-- <ol id="messages"></ol> -->
+		<div class="page">
+			<h1 class="page-title">Welcome to Chat App</h1>
+			<ul class="panel-choice">
+				<a class="btn-room" href="/wddm-121.html">Web Programming</a>
+				<a class="btn-room" href="/wddm-122.html">Web Design</a>
+				<a class="btn-room" href="/wddm-123.html">Web Frameworks</a>
+			</ul>
+		</div>
 
-		<!-- Form: Input field, send button, 
-				 Messages: ordered list -->
-		<form id="sendMsg">
-			<input type="text" id="txt" autocomplete="off" autofocus placeholder="Type message..." name="txt">
-			<input type="submit" name="" value="Send">
-		</form>
+		<script type="text/javascript" src="socket.io/socket.io.js"></script>
+		<script>
+			const socket = io();
+		</script>
 
-		<script src="https://use.fontawesome.com/f91f1a6630.js"></script>
-		<script src="/socket.io/socket.io.js"></script>
-		<script src="js/index.js"></script>
 	</body>
 </html>
