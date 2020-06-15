@@ -1,9 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>WDDM 121 Room</title>
+	<meta charset="utf-8">
+	<title>Chat App - (WDDM 121 Room)</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/responsiveness.css">
+	<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200&family=Montserrat:wght@500&display=swap" rel="stylesheet">
 </head>
-<body>
-	<h1>WDDM 121</h1>
+<body class="wddm-121">
+	<h1 class="page-title">Welcome to WDDM 121 room (Web Programming)</h1>
+
+	<section>
+		<ol id="messages"></ol>
+	</section>
+
+	<!-- Form: Input field, send button, 
+			 Messages: ordered list -->
+	<form id="sendMsg">
+		<input type="text" id="txt" autocomplete="off" autofocus placeholder="Type message..." name="txt">
+		<input type="submit" name="" value="Send">
+	</form>
+
+	<script src="https://use.fontawesome.com/f91f1a6630.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="js/index.js"></script>
 </body>
 </html>
