@@ -21,6 +21,17 @@
 			</ul>
 		</div>
 
+		<section class="prompt-modal-bg">
+			<div class="prompt-modal">
+				<form id="chat-user">
+					<h2>Please type in moniker</h2>
+					<label for="moniker">Name</label>
+					<input type="text" name="moniker" required autofocus placeholder="(At lease 3 characters)..." pattern="\S{3,}" required title="least 3 characters">
+					<button type="button">Enter</button>
+				</form> 
+			</div>
+		</sectioin>
+
 		<script type="text/javascript" src="socket.io/socket.io.js"></script>
 		<script>
 			const socket = io();
