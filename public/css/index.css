@@ -61,6 +61,13 @@ form {
 	display: flex;
 	font-family: Helvetica;
 }
+
+/*Register*/
+.register {
+	margin: ;
+}
+
+
 .msgTextbox {
 	font-size: 1.2rem;
 	padding: 10px;
@@ -88,10 +95,10 @@ form {
 	background-color: #82bf9d;
 	padding: 5px 10px;
 	border-radius: 5px;
-	margin-bottom: 8px;
+	margin-bottom: .8em;
 	font-size: 1.2em;
 	width: fit-content;
-	border-bottom-right-radius: -35px;
+	display: inline-block;
 }
 .msg p {
 	margin: 0;
@@ -107,7 +114,6 @@ form {
 	opacity: .8;
 	margin-left: 0 !important;
 	text-transform: uppercase;
-	display: inline-block;
 }
 
 /*Dialogue Form*/

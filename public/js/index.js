@@ -1,16 +1,20 @@
 'use strict';
 
+const logged = ({msgList, state, name}) => {
+
+	let connected = (state === 'online') ? 'connected' : 'disconnected';
+	const newMsg = document.createElement('li');
+	newMsg.classList.add('msg');
+	msgList.appendChild(newMsg);
+	newMsg.innerHTML= `<span class="other-user">${name}</span> has ${connected}`;	
+}
+
 const connect = (name, chatRoom) => {
 
 	const room = chatRoom;
 
 	const $msgForm = document.getElementById('sendMsg');
 	const $msgList = document.getElementById('messages'); 
-
-	//const socket = io.connect('/tech');
-
-	alert(room);
-	alert (name);
 
 	//const socket = io();
 	const socket = io.connect('/tech');
@@ -22,12 +26,22 @@ const connect = (name, chatRoom) => {
 
 	socket.emit('join', {name, room});
 
+	// When user makes connection, inform other users
 	socket.on('user-connected', name => {
+		logged({
+			'msgList' : $msgList,
+			'state' : 'online',
+			'name' : name
+		});
+	});
 
-		const newMsg = document.createElement('li');
-		newMsg.classList.add('msg');
-		$msgList.appendChild(newMsg);
-		newMsg.innerHTML= `<span class="other-user">${name}</span> has connected`;
+	// When user disconnects, inform other users
+	socket.on('user-disconnected', name => {
+		logged({
+			'msgList' : $msgList,
+			'state' : 'offline',
+			'name' : name
+		});
 	});
 
 
