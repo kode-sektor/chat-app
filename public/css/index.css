@@ -6,16 +6,33 @@ body {
 .page {
 	padding: 20px;
 }
+.index .page {
+	background: rgba(0, 0, 0, .3);
+}
 .panel-choice {
-    padding: 2rem 1rem;
-    margin-bottom: 2rem;
-    background-color: #e9ecef;
-    border-radius: .3rem;
+	display: flex;
+	text-align: center;
+	align-items: center;
+	max-width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	flex-flow: column;
+	padding: 2rem 1rem;
+	margin-bottom: 2rem;
+	background-color: rgba(233, 236, 239, .4);
+	border-radius: .3rem;
+	transition: all .3s;
+}
+.panel-choice:hover, .panel-choice:focus {
+	background-color: rgba(233, 236, 239, .7);
+}
+.panel-choice li {
+	margin-bottom: 1.5em;
 }
 .page-title {
 	font-size: 2.5rem;
 }
-.wddm-121 .page-title {
+.page-title {
 	font-size: 2em;
 	margin: 0 auto;
 	text-align: center;
@@ -27,6 +44,12 @@ body {
 	color: #020133;
 	top: 0;
 	background: snow;
+}
+.index .page-title + h2 {
+	margin-top: 95px;
+	text-align: center;
+	font-family: Montserrat, sans-serif;
+	margin-bottom: 20px;
 }
 .btn-room, .sendMsg input[type=submit] {
 	display: inline-block;
@@ -47,6 +70,11 @@ body {
     color: #fff;
     background-color: #0062cc;
     border-color: #005cbf;
+    transition: all .2s;
+}
+.btn-room:hover, .btn-room:focus {
+	transform: scale(1.1);
+	opacity: .8;
 }
 #messages {
 	height: calc(88vh - 80px);
