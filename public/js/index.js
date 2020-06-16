@@ -7,7 +7,7 @@ const timeHumanise = () => {
 	let hr = date.getHours();
 	let min = date.getMinutes();
 	let sec = date.getSeconds();
-	(sec) = (sec.length == '1') ? (0 + sec) : sec;
+	(sec) = (sec.toString().length == '1') ? ('0' + sec) : sec;
 	return `<time class='chat-stamp' datetime='${hr}-${min}-${sec}'>${hr}:${min}:${sec}</time>`;
 }
 
