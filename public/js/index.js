@@ -1,8 +1,15 @@
 'use strict';
 
+let sanitizeHTML = function (str) {
+	let temp = document.createElement('div');
+	temp.textContent = str;
+	return temp.innerHTML;
+};
+
 const logged = ({msgList, state, name}) => {
 
 	let connected = (state === 'online') ? 'connected' : 'disconnected';
+
 	const newMsg = document.createElement('li');
 	newMsg.classList.add('msg');
 	msgList.appendChild(newMsg);
@@ -15,6 +22,7 @@ const connect = (name, chatRoom) => {
 
 	const $msgForm = document.getElementById('sendMsg');
 	const $msgList = document.getElementById('messages'); 
+	const $textbox = document.getElementById('txt')
 
 	//const socket = io();
 	const socket = io.connect('/tech');
@@ -42,6 +50,31 @@ const connect = (name, chatRoom) => {
 			'state' : 'offline',
 			'name' : name
 		});
+	});
+
+	// Listen to submission of chat and then emit message in room
+
+	$msgForm.addEventListener('submit', (e) => {
+		alert('holdon');
+
+		e.preventDefault();
+		let chatMsg = sanitizeHTML(($textbox.value).trim());
+		socket.emit('message', {chatMsg, room});
+		$textbox.value = '';
+
+	});
+
+	socket.on('message', (msg)=> {
+
+		console.log(msg);
+		const newMsg = document.createElement('li');
+		newMsg.classList.add('msg');
+		$msgList.appendChild(newMsg);
+		newMsg.innerHTML= `<span class="other-user">${msg.name} :</span>  ${msg.message}`;
+
+		//$('#messages').append($('<li>').text(`${msg.name}: ${msg.message}`));
+
+
 	});
 
 

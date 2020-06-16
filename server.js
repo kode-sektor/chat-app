@@ -74,7 +74,7 @@ tech.on('connection', function (socket) {
   	});
 
   	socket.on('message', (data)=> {
-  		tech.in(data.room).emit('message', { message: data.msg, name: users[socket.id]});
+  		tech.in(data.room).emit('message', { message: data.chatMsg, name: users[socket.id]});
   	});
 
 /*    // Transmit a message to everyone except the sender
