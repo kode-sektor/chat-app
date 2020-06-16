@@ -32,10 +32,10 @@ io.on('connection', function (socket) {
   // Listen for a "newuser" message
   socket.on('join', (data) => {
 
-  	socket.join(data.room);
-  	users[socket.id = data.name];
+  	socket.join(data.room);	// join room
+  	users[socket.id] = data.name;
 
-  	if (data.name != null) {
+  	if (data.name != null) {	// only display moniker if not empty
   		socket.broadcast.emit('user-connected', data.name);
   	}
 

@@ -4,12 +4,6 @@ const connect = (name, chatRoom) => {
 
 	const room = chatRoom;
 
-	//const socket = io.connect('/tech');
-
-	alert(chatRoom);
-	alert (name);
-
-
 	const socket = io();
 
 	// Send a message to say that I've connected
