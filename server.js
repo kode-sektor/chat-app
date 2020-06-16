@@ -25,12 +25,24 @@ app.get('/', (req, res) => {
 app.use(express.static('.'));
 
 
-
+const users = {};
 
 io.on('connection', function (socket) {
 	
   // Listen for a "newuser" message
-  socket.on('newuser', (data) => {
+  socket.on('join', (data) => {
+
+  	socket.join(data.room);
+  	users[socket.id = data.name];
+
+  	if (data.name != null) {
+  		socket.broadcast.emit('user-connected', data.name);
+  	}
+
+
+
+
+
     // Transmit a message to everyone except the sender
     socket.broadcast.emit('newuser', data);
 

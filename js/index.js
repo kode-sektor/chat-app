@@ -1,8 +1,34 @@
 'use strict';
 
-let userMoniker = '';
+const connect = (name, chatRoom) => {
 
-const socket = io();
+	const room = chatRoom;
+
+	//const socket = io.connect('/tech');
+
+	alert(chatRoom);
+	alert (name);
+
+
+	const socket = io();
+
+	// Send a message to say that I've connected
+
+	// alert(type in your name)
+	// socket.emit('newuser', {user: 'Grace Hopper'});
+
+	socket.emit('join', {name, chatRoom});
+
+	socket.on('user-connected', name => {
+		$('#messages').append($('<li>').text(name + ' is connected'));
+	});
+
+
+	// Event listener, waiting for an incoming "newuser"
+	socket.on('newuser', (data) => console.log(`${data.user} has connected!`));
+}
+
+/*const socket = io();
 
 // Send a message to say that I've connected
 
@@ -10,7 +36,7 @@ const socket = io();
 socket.emit('newuser', {user: 'Grace Hopper'});
 
 // Event listener, waiting for an incoming "newuser"
-socket.on('newuser', (data) => console.log(`${data.user} has connected!`));
+socket.on('newuser', (data) => console.log(`${data.user} has connected!`));*/
 
 
 // Listen for the 'submit' of a form
@@ -19,23 +45,6 @@ socket.on('newuser', (data) => console.log(`${data.user} has connected!`));
 // Listen for "chatmsg"
 //   add a <li> with the chat msg to the <ol>
 
-
-// Listen to submission of dialogue form 
-const $dialogueForm = document.getElementById('chat-user');
-const $dialogModal = document.getElementById('prompt-modal-bg');
-const $moniker = document.getElementById('moniker');
-
-
-// On submission of the form
-$dialogueForm.addEventListener('submit', (e) => {
-	e.preventDefault();	// prevent default action
-	userMoniker = $moniker.value;	// get username
-	if (userMoniker.length < 3) {
-		alert('Moniker should be 3 or more words long');
-	} else {
-		$dialogModal.classList.add('bg-active');	// hide modal	
-	}
-});
 
 
 const $msgForm = document.getElementById('sendMsg');
