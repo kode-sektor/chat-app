@@ -22,14 +22,12 @@
 		</div>
 
 		<section class="prompt-modal-bg">
-			<div class="prompt-modal">
-				<form id="chat-user">
-					<h2>Please type in moniker</h2>
-					<label for="moniker">Name</label>
-					<input type="text" name="moniker" required autofocus placeholder="(At lease 3 characters)..." pattern="\S{3,}" required title="least 3 characters">
-					<button type="button">Enter</button>
-				</form> 
-			</div>
+			<form class="prompt-modal" id="chat-user">
+				<h2>Please type in moniker</h2>
+				<label for="moniker" class="sr">Name</label>
+				<input type="text" name="moniker" required autofocus placeholder="(At lease 3 characters)..." pattern="\S{3,}" required title="least 3 characters">
+				<button type="button" id="chat-user-btn" class="chat-user-btn">Go to Room</button>
+			</form>
 		</sectioin>
 
 		<script type="text/javascript" src="socket.io/socket.io.js"></script>
