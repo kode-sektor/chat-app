@@ -80,8 +80,8 @@ input {
     margin: 10px 5px;
     appearance: none;
     -webkit-appearance: none;
-    border: thin solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #020133;
+    border-radius: 0;
 }
 .sendMsg button {
 	font-size: 1.2rem;
@@ -116,12 +116,14 @@ input {
 	height: 100vh;
 	top: 0;
 	left: 0;
-	background-color: rgba(0,0,0,.5);
+	background-color: rgba(0,0,0,.8);
 	justify-content: center;
+	align-items: center;
 	display: flex;
 	/visibility: hidden;
 	/opacity: 0;
 	transition: visibility 0s, opacity 0.5s;
+	z-index: 100;
 }
 .bg-active {
 	visibility : visible;
@@ -139,6 +141,11 @@ input {
 	align-items: center;
 	flex-direction: column;
 	box-shadow: rgb(58,58,58) 1px 1px 5px;
+}
+.moniker {
+	margin-bottom: 25px;
+	border-radius: 0;
+	border: thin sol;
 }
 .prompt-modal button {
 	padding: 10px 30px;

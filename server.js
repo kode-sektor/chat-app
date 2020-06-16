@@ -1,6 +1,6 @@
 const express  = require('express');
 const app      = express();
-const port     = 5001;
+const port     = process.env.PORT || 5001;
 const server   = app.listen(port, () => {console.log(`Server running at http://localhost:${port}`)});
 const io 	   = require('socket.io').listen(server);
 
@@ -20,7 +20,6 @@ app.get('/', (req, res) => {
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/wddm-123.html');
 });
-
 
 
 app.use(express.static('.'));
