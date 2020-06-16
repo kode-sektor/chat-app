@@ -25,12 +25,10 @@ const connect = (name, chatRoom) => {
 	socket.on('user-connected', name => {
 
 		const newMsg = document.createElement('li');
+		newMsg.classList.add('msg');
 		$msgList.appendChild(newMsg);
-
-		newMsg.textContent = `${name} is connected`;
+		newMsg.innerHTML= `<span class="other-user">${name}</span> has connected`;
 	});
-
-
 
 
 	// Event listener, waiting for an incoming "newuser"

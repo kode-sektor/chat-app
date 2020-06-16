@@ -15,12 +15,12 @@ img {
 	height: auto;
 	vertical-align: bottom;
 }
-ul {
+ul, ol, dl {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
-ul.ul {
+ul.ul, ol.ol, dl.dl{
 	list-style-type: disc;
 	margin-block-start: 1em;
 	margin-block-end: 1em;
@@ -32,6 +32,15 @@ a {
     color: #007bff;
     text-decoration: none;
     background-color: transparent;
+}
+input {
+    font-size: 1.2rem;
+    padding: 10px;
+    margin: 10px 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid #020133;
+    border-radius: 0;
 }
 .sr{
 	margin: -1px;

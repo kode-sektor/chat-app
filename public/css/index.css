@@ -56,7 +56,6 @@ body {
 	background-image: url('/img/whatsapp-bg.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
-	border: 2px solid gold;
 }
 form {
 	display: flex;
@@ -76,40 +75,40 @@ form {
 	/*set to autofocus in HTML which is repsonsible for bringing the app into view, even if 
 	there is other content before it*/
 }
-input {
-    font-size: 1.2rem;
-    padding: 10px;
-    margin: 10px 5px;
-    appearance: none;
-    -webkit-appearance: none;
-    border: 1px solid #020133;
-    border-radius: 0;
-}
 .sendMsg button {
 	font-size: 1.2rem;
     padding: 10px;
     margin: 10px 5px;
     appearance: none;
     -webkit-appearance: none;
-    border: thin solid #ccc;
+    border: thin solid rgba(0,0,0,.2);
     border-radius: 5px;
 }
 .msg {
-	background-color: #dcf8c6;
+	background-color: #82bf9d;
 	padding: 5px 10px;
 	border-radius: 5px;
 	margin-bottom: 8px;
+	font-size: 1.2em;
 	width: fit-content;
+	border-bottom-right-radius: -35px;
 }
 .msg p {
 	margin: 0;
 	font-weight: bold;
 }
 .msg span {
-	font-size: 0.7rem;
+	font-size: 1.1rem;
 	margin-left: 15px;
 }
-
+.other-user {
+	font-size: 1.2em !important;
+	font-weight: bold;
+	opacity: .8;
+	margin-left: 0 !important;
+	text-transform: uppercase;
+	display: inline-block;
+}
 
 /*Dialogue Form*/
 .prompt-modal-bg {
@@ -132,7 +131,7 @@ input {
 .prompt-modal {
 	position: relative;
 	font-family: 'Montserrat', sans-serif;
-	background-color: white;
+	background-color: rgba(255,255,255,9);
 	width: 45%;
 	height: 45%;
 	padding: 5%;
@@ -141,6 +140,7 @@ input {
 	align-items: center;
 	flex-direction: column;
 	box-shadow: rgb(58,58,58) 1px 1px 5px;
+	border: 2px solid #2980b9;
 }
 .moniker {
 	margin-bottom: 25px;
