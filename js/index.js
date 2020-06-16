@@ -1,5 +1,7 @@
 'use strict'
 
+let userMoniker = '';
+
 const socket = io();
 
 // Send a message to say that I've connected
@@ -26,10 +28,11 @@ const $moniker = document.getElementById('moniker');
 
 // On submission of the form
 $dialogueForm.addEventListener('submit', (e) => {
-	e.preventDefault();
-	alert('working');
-	$dialogModal.classList.add('bg-active');
+	e.preventDefault();	// prevent default action
+	userMoniker = $moniker.value;	// get username
+	$dialogModal.classList.add('bg-active');	// hide modal
 });
+
 
 const $msgForm = document.getElementById('sendMsg');
 const $msgList = document.getElementById('messages');
