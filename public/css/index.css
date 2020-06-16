@@ -91,6 +91,20 @@ form {
     border: thin solid rgba(0,0,0,.2);
     border-radius: 5px;
 }
+.joined {
+	margin: 0 auto;
+	color: #fff;
+	padding: 3px;
+	text-align: center;
+}
+.joined > span {
+	display: inline-block;
+	background : rgba(0, 98, 204, .2);
+	font-size: 1.1em;
+	padding: 5px 5px;	
+	border: thin rgba(255,255,255,.3) solid;	
+	text-shadow: 1px 1px 1px rgba(255,255,255,.3);
+}
 .msg {
 	background-color: #82bf9d;
 	padding: 5px 10px;
@@ -98,7 +112,8 @@ form {
 	margin-bottom: .8em;
 	font-size: 1.2em;
 	width: fit-content;
-	display: inline-block;
+	display: block;
+	max-width: 30%;
 }
 .msg p {
 	margin: 0;

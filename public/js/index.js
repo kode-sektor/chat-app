@@ -11,9 +11,9 @@ const logged = ({msgList, state, name}) => {
 	let connected = (state === 'online') ? 'connected' : 'disconnected';
 
 	const newMsg = document.createElement('li');
-	newMsg.classList.add('msg');
+	newMsg.classList.add('joined');
 	msgList.appendChild(newMsg);
-	newMsg.innerHTML= `<span class="other-user">${name}</span> has ${connected}`;	
+	newMsg.innerHTML= `<span><span class="other-user">${name}</span> has ${connected}</span>`;	
 }
 
 const connect = (name, chatRoom) => {
@@ -53,11 +53,9 @@ const connect = (name, chatRoom) => {
 	});
 
 	// Listen to submission of chat and then emit message in room
-
 	$msgForm.addEventListener('submit', (e) => {
-		alert('holdon');
-
 		e.preventDefault();
+
 		let chatMsg = sanitizeHTML(($textbox.value).trim());
 		socket.emit('message', {chatMsg, room});
 		$textbox.value = '';
@@ -65,16 +63,10 @@ const connect = (name, chatRoom) => {
 	});
 
 	socket.on('message', (msg)=> {
-
-		console.log(msg);
 		const newMsg = document.createElement('li');
 		newMsg.classList.add('msg');
 		$msgList.appendChild(newMsg);
 		newMsg.innerHTML= `<span class="other-user">${msg.name} :</span>  ${msg.message}`;
-
-		//$('#messages').append($('<li>').text(`${msg.name}: ${msg.message}`));
-
-
 	});
 
 
