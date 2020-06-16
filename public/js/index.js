@@ -1,5 +1,18 @@
 'use strict';
 
+const timeHumanise = () => {
+	let date = new Date();
+	let day = date.getDate();	
+
+	let hr = date.getHours();
+	let min = date.getMinutes();
+	let sec = date.getSeconds();
+	(sec) = (sec.length == '1') ? (0 + sec) : sec;
+	return `<time class='chat-stamp' datetime='${hr}-${min}-${sec}'>${hr}:${min}:${sec}</time>`;
+}
+
+let timestamp = new Date();
+
 let sanitizeHTML = function (str) {
 	let temp = document.createElement('div');
 	temp.textContent = str;
@@ -66,7 +79,7 @@ const connect = (name, chatRoom) => {
 		const newMsg = document.createElement('li');
 		newMsg.classList.add('msg');
 		$msgList.appendChild(newMsg);
-		newMsg.innerHTML= `<span class="other-user">${msg.name} :</span>  ${msg.message}`;
+		newMsg.innerHTML= `<span class="other-user">${msg.name} :</span>  ${msg.message} - ${timeHumanise()}`;
 	});
 
 
