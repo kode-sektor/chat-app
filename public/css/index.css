@@ -1,0 +1,160 @@
+body {
+	margin: 0;
+	/overflow: hidden;
+	font-family: 'Dosis', 'Montserrat', Verdana;
+}
+.page {
+	padding: 20px;
+}
+.panel-choice {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: #e9ecef;
+    border-radius: .3rem;
+}
+.page-title {
+	font-size: 2.5rem;
+}
+.wddm-121 .page-title {
+	font-size: 2em;
+	margin: 0 auto;
+	text-align: center;
+	position: fixed;
+	z-index: 99;
+	right: 0;
+	padding: 20px;
+	left: 0;
+	color: #020133;
+	top: 0;
+	background: snow;
+}
+.btn-room, .sendMsg input[type=submit] {
+	display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-size: 1.3em;
+    border-radius: .25rem;
+    transition: all .2s;
+    color: #fff;
+    background-color: #0062cc;
+    border-color: #005cbf;
+}
+#messages {
+	height: calc(88vh - 80px);
+	overflow-y: scroll;
+	padding: 10px;
+	margin-top: 80px;
+	background-image: url('/img/whatsapp-bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	border: 2px solid gold;
+}
+form {
+	display: flex;
+	font-family: Helvetica;
+}
+.msgTextbox {
+	font-size: 1.2rem;
+	padding: 10px;
+	margin: 10px 5px;
+	appearance: none;
+	-webkit-appearance: none;
+	border: thin solid #020133;
+	border-radius: 5px;
+}
+.msgTextbox {
+	flex: 2;
+	/*set to autofocus in HTML which is repsonsible for bringing the app into view, even if 
+	there is other content before it*/
+}
+input {
+    font-size: 1.2rem;
+    padding: 10px;
+    margin: 10px 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid #020133;
+    border-radius: 0;
+}
+.sendMsg button {
+	font-size: 1.2rem;
+    padding: 10px;
+    margin: 10px 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: thin solid #ccc;
+    border-radius: 5px;
+}
+.msg {
+	background-color: #dcf8c6;
+	padding: 5px 10px;
+	border-radius: 5px;
+	margin-bottom: 8px;
+	width: fit-content;
+}
+.msg p {
+	margin: 0;
+	font-weight: bold;
+}
+.msg span {
+	font-size: 0.7rem;
+	margin-left: 15px;
+}
+
+
+/*Dialogue Form*/
+.prompt-modal-bg {
+	position: fixed;
+	width: 100%;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	background-color: rgba(0,0,0,.8);
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	transition: visibility 0s, opacity 0.5s;
+	z-index: 100;
+}
+.bg-active {
+	visibility : hidden;
+	opacity: 0;
+}
+.prompt-modal {
+	position: relative;
+	font-family: 'Montserrat', sans-serif;
+	background-color: white;
+	width: 45%;
+	height: 45%;
+	padding: 5%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-direction: column;
+	box-shadow: rgb(58,58,58) 1px 1px 5px;
+}
+.moniker {
+	margin-bottom: 25px;
+	border-radius: 0;
+}
+.moniker:hover, .moniker:focus {
+	border: thin solid #020133 !important;
+	outline: 0;
+}
+.prompt-modal button {
+	padding: 10px 30px;
+	background-color: #2980b9;
+	color: #fff;
+	border: none;
+	font-family: 'Montserrat', sans-serif;
+	cursor: pointer;
+}
