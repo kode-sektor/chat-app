@@ -120,14 +120,12 @@ input {
 	justify-content: center;
 	align-items: center;
 	display: flex;
-	/visibility: hidden;
-	/opacity: 0;
 	transition: visibility 0s, opacity 0.5s;
 	z-index: 100;
 }
 .bg-active {
-	visibility : visible;
-	opacity: 1;
+	visibility : hidden;
+	opacity: 0;
 }
 .prompt-modal {
 	position: relative;

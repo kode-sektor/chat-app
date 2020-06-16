@@ -19,12 +19,16 @@ socket.on('newuser', (data) => console.log(`${data.user} has connected!`));
 
 
 // Listen to submission of dialogue form 
-const $dialogueForm = document.getElementById('#chat-user');
-const $dialogModal = document.getElementById('#prompt-modal-bg"');
+const $dialogueForm = document.getElementById('chat-user');
+const $dialogModal = document.getElementById('prompt-modal-bg');
+const $moniker = document.getElementById('moniker');
+
 
 // On submission of the form
-$msgForm.addEventListener('submit', (event) => {
-	// Save moniker
+$dialogueForm.addEventListener('submit', (e) => {
+	e.preventDefault();
+	alert('working');
+	$dialogModal.classList.add('bg-active');
 });
 
 const $msgForm = document.getElementById('sendMsg');
