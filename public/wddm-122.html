@@ -5,12 +5,12 @@
 	<title>Chat App - (WDDM 122 Room)</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
-	<link rel="stylesheet" href="css/reset.css">
-	<link rel="stylesheet" href="css/index.css">
-	<link rel="stylesheet" href="css/responsiveness.css">
+	<link rel="stylesheet" href="/css/reset.css">
+	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="/css/responsiveness.css">
 	<link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200&family=Montserrat:wght@500&display=swap" rel="stylesheet">
 </head>
-<body class="wddm-122">
+<body class="wddm-121">
 	<h1 class="page-title">Welcome to WDDM 122 room (Web Design)</h1>
 
 	<section>
@@ -20,7 +20,7 @@
 	<!-- Form: Input field, send button, 
 			 Messages: ordered list -->
 	<form id="sendMsg" class="sendMsg">
-		<input type="text" class="msgTextbox" id="txt" autocomplete="off" autofocus placeholder="Type message..." name="txt">
+		<input type="text" class="msgTextbox" id="txt" autocomplete="off" placeholder="Type message..." name="txt">
 		<input type="submit" name="" value="Send">
 	</form>
 
@@ -28,13 +28,39 @@
 		<form class="prompt-modal" id="chat-user">
 			<h2>Please type in moniker</h2>
 			<label for="moniker" class="sr">Name</label>
-			<input type="text" class="moniker" id="moniker" name="moniker" required autofocus placeholder="(At least 3 characters)..." pattern="\S{3,}" required title="least 3 characters">
-			<button type="button" id="chat-user-btn" class="chat-user-btn">Go to Room</button>
+			<input type="text" class="moniker" id="moniker" name="moniker" required autofocus placeholder="(At least 3 characters)..." pattern="\S{3,}" title="least 3 characters">
+			<button type="submit" id="chat-user-btn" class="chat-user-btn">Go to Room</button>
 		</form>
 	</section>
 
 	<script src="https://use.fontawesome.com/f91f1a6630.js"></script>
-	<script src="/socket.io/socket.io.js"></script>
+	<script src="/socket.io/socket.io.js" type="text/javascript"></script>
 	<script src="js/index.js"></script>
+	<!-- <script src="js/connect.js"></script> -->
+
+	<script type="text/javascript">
+
+		let userMoniker = '';
+
+		// Listen to submission of dialogue form 
+		const $dialogueForm = document.getElementById('chat-user');
+		const $dialogModal = document.getElementById('prompt-modal-bg');
+		const $moniker = document.getElementById('moniker');
+
+
+		// On submission of the form
+		$dialogueForm.addEventListener('submit', (e) => {
+			e.preventDefault();	// prevent default action
+			userMoniker = $moniker.value;	// get username
+			if (userMoniker.length < 3) {
+				alert('Moniker should be 3 or more words long');
+			} else {
+				$dialogModal.classList.add('bg-active');	// hide modal	
+				connect(userMoniker, 'wddm-122');
+			}
+		});
+
+	</script>
+
 </body>
 </html>
