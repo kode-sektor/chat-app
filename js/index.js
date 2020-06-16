@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 let userMoniker = '';
 
@@ -30,7 +30,11 @@ const $moniker = document.getElementById('moniker');
 $dialogueForm.addEventListener('submit', (e) => {
 	e.preventDefault();	// prevent default action
 	userMoniker = $moniker.value;	// get username
-	$dialogModal.classList.add('bg-active');	// hide modal
+	if (userMoniker.length < 3) {
+		alert('Moniker should be 3 or more words long');
+	} else {
+		$dialogModal.classList.add('bg-active');	// hide modal	
+	}
 });
 
 
