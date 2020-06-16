@@ -26,7 +26,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const server = require('http').Server(app);
-const io = require('socket.io').listen(server);
+const io = require('socket.io')(server);
 const port = 5001;
 
 // const io = require('socket.io')(5000);
@@ -71,6 +71,10 @@ tech.on('connection', function (socket) {
   			socket.broadcast.emit('user-connected', data.name);
   		}
 
+  	});
+
+  	socket.on('message', (data)=> {
+  		tech.in(data.room).emit('message', { message: data.msg, name: users[socket.id]});
   	});
 
 /*    // Transmit a message to everyone except the sender
