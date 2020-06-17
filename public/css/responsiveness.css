@@ -2,4 +2,33 @@
 	.panel-choice {
 	    padding: 4rem 2rem;
 	}
+
+}
+@media (min-width: 767px) {
+	.page-title {
+		font-size: 2.5rem;
+	}
+	.user {
+		font-size: 1em !important;
+	}
+	.msg {
+		font-size: 1.2em;
+	}
+}
+@media (min-width: 991px) {
+	.prompt-modal {
+		width: 45%;
+		min-height: 45%;
+		padding: 3em 5%;
+	}
+	.moniker {
+		margin-bottom: 25px;
+	}
+	.prompt-modal button, .return-home {
+		padding: 10px 30px;
+		margin-bottom: 15px;
+	}
+	.return-home {
+		font-size: 13.33px;
+	}
 }
