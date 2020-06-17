@@ -89,32 +89,36 @@ const connect = (name, chatRoom, moniker) => {
 
 	// 'Typing' logic
 	let typing = false;
-	$textbox.addEventListener("keypress", (e) => {
+	let textboxValue = '';
+
+	$textbox.addEventListener("keyup", (e) => {
+		textboxValue = (e.target).value;
+
 		if (e.which != 13) {
-			socket.emit('typing', {user:name, typing: true});
+			socket.emit('typing', {user:name, typing:true, elm:textboxValue});
 		} else {
-			socket.emit('typing', {user:name, typing: false});
+			socket.emit('typing', {user:name, typing:false, elm:textboxValue});
 		}
-		alert($textbox.value);
 	});
 
 	// 'Typing' response from server event
 	socket.on('display', (data) => {
-		$textbox = document.getElementById('txt');
+
+		console.log(data.elm);
+		console.log(data.typing);
 
     	if(data.typing==true) {
 
-    		alert($textbox.value);
-
-    		if (($textbox.value).trim().length == 1) {	// Ensure to style only once
-
-    			alert((($textbox.value).trim()).length);
-
+    		let $isTyping = document.querySelector('.is-typing');
+    		console.log($isTyping);
+    		// let isTypingLngth = $isTyping.length;
+    		//alert (isTypingLngth);
+    		if ($isTyping == null) {
     			const newMsg = document.createElement('li');	// create new li to append
     			newMsg.classList.add('is-typing');	// style
     			$msgList.appendChild(newMsg);	// append HTML 
     			// Display logged message
-    			newMsg.innerHTML= `<span><span class="other-user">${name}</span> is typing</span>`;	
+    			newMsg.innerHTML= `<span><span class="other-user">${name}</span> is typing...</span>`;	
     		}
 
 		} else {
