@@ -27,7 +27,11 @@ const logged = ({msgList, state, name}) => {
 	newMsg.innerHTML= `<span><span class="other-user">${name}</span> has ${connected}</span>`;	
 }
 
-const connect = (name, chatRoom) => {
+const meVsThey = (name) => {
+	return userMoniker == (name) ? true : false;
+}
+
+const connect = (name, chatRoom, moniker) => {
 
 	const room = chatRoom;
 
@@ -68,6 +72,7 @@ const connect = (name, chatRoom) => {
 	});
 
 	socket.on('message', (msg)=> {
+		if (meVsThey(msg.name)) alert ('true');
 		const newMsg = document.createElement('li');
 		newMsg.classList.add('msg');
 		$msgList.appendChild(newMsg);
