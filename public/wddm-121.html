@@ -47,7 +47,6 @@
 
 	<script src="https://use.fontawesome.com/f91f1a6630.js"></script>
 	<script src="/socket.io/socket.io.js" type="text/javascript"></script>
-	<script src="js/index.js"></script>
 	<!-- <script src="js/connect.js"></script> -->
 
 	<script type="text/javascript">
@@ -58,7 +57,8 @@
 		const $dialogueForm = document.getElementById('chat-user');
 		const $dialogModal = document.getElementById('prompt-modal-bg');
 		const $moniker = document.getElementById('moniker');
-
+		const $textbox = document.getElementById('txt');
+		console.log($textbox);
 
 		// On submission of the form
 		$dialogueForm.addEventListener('submit', (e) => {
@@ -67,12 +67,16 @@
 			if (userMoniker.length < 3) {
 				alert('Moniker should be 3 or more words long');
 			} else {
+				$moniker.removeAttribute('autofocus');
+				$textbox.setAttribute('autofocus', '');
+				$textbox.focus();	// Switch focus immediately modal disappeaers
 				$dialogModal.classList.add('bg-active');	// hide modal	
-				connect(userMoniker, 'wddm-121', userMoniker);
+				connect(userMoniker, 'wddm-121');
 			}
 		});
 
 	</script>
+	<script src="js/index.js"></script>
 
 </body>
 </html>
