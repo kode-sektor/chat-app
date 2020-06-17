@@ -200,6 +200,9 @@ form {
 	display: block;
 	max-width: 30%;
 }
+.msg .is-you {
+	background-color: ;
+}
 .msg p {
 	margin: 0;
 	font-weight: bold;
@@ -257,11 +260,19 @@ form {
 	border: thin solid #020133 !important;
 	outline: 0;
 }
-.prompt-modal button {
+.prompt-modal button, .return-home {
 	padding: 10px 30px;
 	background-color: #2980b9;
 	color: #fff;
 	border: none;
 	font-family: 'Montserrat', sans-serif;
 	cursor: pointer;
+	margin-bottom: 15px;
+}
+.return-home {
+	font-size: 13.33px;
+	background-color: rgba(0,0,0,.4);
+}
+.prompt-modal button:hover, .return-home:hover, .prompt-modal button:focus, .return-home:focus {
+	opacity: .7;
 }
