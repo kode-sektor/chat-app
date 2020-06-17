@@ -54,9 +54,9 @@ tech.on('connection', function (socket) {
   	// Typing... event
   	socket.on('typing', (data)=>{
   	  if(data.typing==true) {
-  	      socket.emit('display', data);
+  	      socket.broadcast.emit('display', data);
   	  } else {
-  	  	  socket.emit('display', data);
+  	  	  socket.broadcast.emit('display', data);
   	  }
   	})
 

@@ -4,7 +4,7 @@ let userMoniker = '';
 const $dialogueForm = document.getElementById('chat-user');
 const $dialogModal = document.getElementById('prompt-modal-bg');
 const $moniker = document.getElementById('moniker');
-const $textbox = document.getElementById('txt');
+let $textbox = document.getElementById('txt');
 
 let path = window.location.pathname;
 let file = path.split("/").pop();

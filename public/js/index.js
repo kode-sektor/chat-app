@@ -87,7 +87,7 @@ const connect = (name, chatRoom, moniker) => {
 		newMsg.innerHTML= `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
 	});
 
-	// Typing logic
+	// 'Typing' logic
 	let typing = false;
 	$textbox.addEventListener("keypress", (e) => {
 		if (e.which != 13) {
@@ -95,16 +95,21 @@ const connect = (name, chatRoom, moniker) => {
 		} else {
 			socket.emit('typing', {user:name, typing: false});
 		}
+		alert($textbox.value);
 	});
 
 	// 'Typing' response from server event
-	socket.on('display', (data)=>{
+	socket.on('display', (data) => {
+		$textbox = document.getElementById('txt');
 
     	if(data.typing==true) {
-    		alert(($textbox.value.trim()).length);
 
-    		if (($textbox.value.trim()).length < 1) {
-    			
+    		alert($textbox.value);
+
+    		if (($textbox.value).trim().length == 1) {	// Ensure to style only once
+
+    			alert((($textbox.value).trim()).length);
+
     			const newMsg = document.createElement('li');	// create new li to append
     			newMsg.classList.add('is-typing');	// style
     			$msgList.appendChild(newMsg);	// append HTML 
