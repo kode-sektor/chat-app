@@ -13,14 +13,14 @@ const timeHumanise = () => {
 	return `<time class='chat-stamp' datetime='${hr}-${min}-${sec}'>${hr}:${min}:${sec}</time>`;
 }
 
-const sanitizeHTML = function (str) {
+const sanitiseHTML = function (str) {
 	let temp = document.createElement('div');	// create new div
 	temp.textContent = str;	// populate with string using safe 'textContent' JS set property
 	return temp.innerHTML;	// return stripped HTML
 };
 
 const logged = ({msgList, state, name}) => {
-	// check if it is 'connected' or 'disconnected' event that was fired
+	// Check if it is 'connected' or 'disconnected' event that was fired
 	let connected = (state === 'online') ? 'connected' : 'disconnected';
 
 	const newMsg = document.createElement('li');	// create new li to append
@@ -68,7 +68,7 @@ const connect = (name, chatRoom, moniker) => {
 		e.preventDefault();	// prevent default action
 
 		// neutralise XSS attack and eliminate unnecessary whitespace
-		let chatMsg = sanitizeHTML(($textbox.value).trim());	
+		let chatMsg = sanitiseHTML(($textbox.value).trim());	
 		socket.emit('message', {chatMsg, room});	// emit message 
 		$textbox.value = '';	// clear textbox
 
@@ -87,4 +87,20 @@ const connect = (name, chatRoom, moniker) => {
 		newMsg.innerHTML= `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
 	});
 
+	// Typing logic
+	$textbox.addEventListener("keypress", () => {
+		if (e.which != 13) {
+			socket.emit('typing', {user:user, typing: true});
+		} else {
+			socket.emit('typing', {user:user, typing: false});
+		}
+	});
+
+	// Typing response from server event
+	socket.on('display', (data)=>{
+	  if(data.typing==true)
+	    $textbox.textContent = (`${data.user} is typing...`)
+	  else
+	   $textbox.textContent = "";
+	});
 }

@@ -49,4 +49,12 @@ tech.on('connection', function (socket) {
   		tech.in(data.room).emit('message', { message: data.chatMsg, name: users[socket.id]});
   	});
 
+  	// Typing... event
+  	socket.on('typing', (data)=>{
+  	  if(data.typing==true)
+  	     socket.broadcast.emit('display', data)
+  	  else
+  	     socket.broadcast.emit('display', data)
+  	})
+
 });
