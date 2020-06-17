@@ -190,7 +190,7 @@ form {
 	border: thin rgba(255,255,255,.3) solid;	
 	text-shadow: 1px 1px 1px rgba(255,255,255,.3);
 }
-.msg {
+.msg, .other-msg {
 	background-color: #82bf9d;
 	padding: 5px 10px;
 	border-radius: 5px;
@@ -200,8 +200,9 @@ form {
 	display: block;
 	max-width: 30%;
 }
-.msg .is-you {
-	background-color: ;
+.other-msg {
+	margin-left : auto;
+	background-color: #9aaba2;
 }
 .msg p {
 	margin: 0;
@@ -211,7 +212,7 @@ form {
 	font-size: 1.1rem;
 	margin-left: 15px;
 }
-.other-user {
+.user {
 	font-size: 1.0em !important;
 	font-weight: bold;
 	opacity: .8;
@@ -219,6 +220,7 @@ form {
 	text-transform: uppercase;
 	font-family: Arial, sans-serif;
 }
+
 
 /*Dialogue Form*/
 .prompt-modal-bg {

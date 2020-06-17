@@ -78,13 +78,13 @@ const connect = (name, chatRoom, moniker) => {
 	socket.on('message', (msg)=> {
 		// compare if the username emitted is the same as that which was collected
 		// from user input in dialogue modal form
-		let me = (meVsThey(msg.name)) ? 'other-' : '';	// create new class for others
+		let my = (meVsThey(msg.name)) ? '' : 'other-';	// create new class for others
 
 		const newMsg = document.createElement('li');	// create li tag
-		newMsg.classList.add('msg');	// insert message
+		newMsg.classList.add(`${my}msg`);	// insert message
 		$msgList.appendChild(newMsg);	// append message
 		// append in human readable format
-		newMsg.innerHTML= `<span class="${me}user">${msg.name}: </span>  ${msg.message} - ${timeHumanise()}`;
+		newMsg.innerHTML= `<span class="user">${msg.name}: </span>  ${msg.message} - ${timeHumanise()}`;
 	});
 
 }
