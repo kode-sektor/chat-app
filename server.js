@@ -39,22 +39,25 @@ tech.on('connection', function (socket) {
   		socket.join(data.room);
   		users[socket.id] = data.name;
 
+  		// Broadcast message 
   		if (data.name != null) {
   			socket.broadcast.emit('user-connected', data.name);
   		}
 
   	});
 
+    // Display message to everyone, including yourself
   	socket.on('message', (data)=> {
   		tech.in(data.room).emit('message', { message: data.chatMsg, name: users[socket.id]});
   	});
 
   	// Typing... event
   	socket.on('typing', (data)=>{
-  	  if(data.typing==true)
-  	     socket.broadcast.emit('display', data)
-  	  else
-  	     socket.broadcast.emit('display', data)
+  	  if(data.typing==true) {
+  	      socket.emit('display', data);
+  	  } else {
+  	  	  socket.emit('display', data);
+  	  }
   	})
 
 });

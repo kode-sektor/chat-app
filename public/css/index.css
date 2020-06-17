@@ -176,19 +176,25 @@ form {
     border: thin solid rgba(0,0,0,.2);
     border-radius: 5px;
 }
-.joined {
+.joined, .is-typing {
 	margin: 0 auto;
 	color: #070b17;
 	padding: 3px 10px;
 	text-align: center;
 }
-.joined > span {
+.joined > span, .is-typing > span {
 	display: inline-block;
 	background : rgba(159, 192, 228, 0.4);
 	font-size: 1.1em;
 	padding: 5px 5px;	
 	border: thin rgba(255,255,255,.3) solid;	
 	text-shadow: 1px 1px 1px rgba(255,255,255,.3);
+}
+.is-typing > span {
+	background: none;
+	text-shadow: 1px 1px 1px rgba(255,255,255,.7);
+	border: none;
+	font-weight: bolder;
 }
 .msg, .other-msg {
 	background-color: #82bf9d;

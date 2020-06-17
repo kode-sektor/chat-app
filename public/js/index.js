@@ -88,19 +88,32 @@ const connect = (name, chatRoom, moniker) => {
 	});
 
 	// Typing logic
-	$textbox.addEventListener("keypress", () => {
+	let typing = false;
+	$textbox.addEventListener("keypress", (e) => {
 		if (e.which != 13) {
-			socket.emit('typing', {user:user, typing: true});
+			socket.emit('typing', {user:name, typing: true});
 		} else {
-			socket.emit('typing', {user:user, typing: false});
+			socket.emit('typing', {user:name, typing: false});
 		}
 	});
 
-	// Typing response from server event
+	// 'Typing' response from server event
 	socket.on('display', (data)=>{
-	  if(data.typing==true)
-	    $textbox.textContent = (`${data.user} is typing...`)
-	  else
-	   $textbox.textContent = "";
+
+    	if(data.typing==true) {
+    		alert(($textbox.value.trim()).length);
+
+    		if (($textbox.value.trim()).length < 1) {
+    			
+    			const newMsg = document.createElement('li');	// create new li to append
+    			newMsg.classList.add('is-typing');	// style
+    			$msgList.appendChild(newMsg);	// append HTML 
+    			// Display logged message
+    			newMsg.innerHTML= `<span><span class="other-user">${name}</span> is typing</span>`;	
+    		}
+
+		} else {
+			// Remove 'is-typing'
+		};
 	});
 }
