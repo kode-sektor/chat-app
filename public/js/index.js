@@ -107,7 +107,8 @@ const connect = (name, chatRoom, moniker) => {
     	if(data.typing==true) {
 
     		let $isTyping = document.querySelector('.is-typing');
-
+    		// use null instead of $isTyping.length <= 1 because this condition may not fire
+    		// if the typing speed is very fast
     		if ($isTyping == null) {	// Append message to DOM only once
     			const newMsg = document.createElement('li');	// create new li to append
     			newMsg.classList.add('is-typing');	// style
@@ -116,6 +117,8 @@ const connect = (name, chatRoom, moniker) => {
     			newMsg.innerHTML= `<span><span class="other-user">${name}</span> is typing...</span>`;	
     		}
 
-		} 
+		} else {
+			document.querySelector('.is-typing').remove();
+		}
 	});
 }
