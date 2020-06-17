@@ -94,7 +94,7 @@ const connect = (name, chatRoom, moniker) => {
 	$textbox.addEventListener("keyup", (e) => {
 		textboxValue = (e.target).value;
 
-		if (e.which != 13) {
+		if (e.which != 13) {	// Listen to keyup except 'Enter'
 			socket.emit('typing', {user:name, typing:true, elm:textboxValue});
 		} else {
 			socket.emit('typing', {user:name, typing:false, elm:textboxValue});
@@ -104,16 +104,11 @@ const connect = (name, chatRoom, moniker) => {
 	// 'Typing' response from server event
 	socket.on('display', (data) => {
 
-		console.log(data.elm);
-		console.log(data.typing);
-
     	if(data.typing==true) {
 
     		let $isTyping = document.querySelector('.is-typing');
-    		console.log($isTyping);
-    		// let isTypingLngth = $isTyping.length;
-    		//alert (isTypingLngth);
-    		if ($isTyping == null) {
+
+    		if ($isTyping == null) {	// Append message to DOM only once
     			const newMsg = document.createElement('li');	// create new li to append
     			newMsg.classList.add('is-typing');	// style
     			$msgList.appendChild(newMsg);	// append HTML 
@@ -121,8 +116,6 @@ const connect = (name, chatRoom, moniker) => {
     			newMsg.innerHTML= `<span><span class="other-user">${name}</span> is typing...</span>`;	
     		}
 
-		} else {
-			// Remove 'is-typing'
-		};
+		} 
 	});
 }
