@@ -63,7 +63,7 @@ const connect = (name, chatRoom, moniker) => {
 		});
 	});
 
-	// Listen to submission of chat and then emit message in room
+	// Listen to submission of chat and then emit message in room (everyone inc. you)
 	$msgForm.addEventListener('submit', (e) => { 
 		e.preventDefault();	// prevent default action
 
@@ -85,9 +85,11 @@ const connect = (name, chatRoom, moniker) => {
 		$msgList.appendChild(newMsg);	// append message
 		// append in human readable format
 		newMsg.innerHTML= `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
+
+		// Save to DB Logic
 	});
 
-	// 'Typing' logic
+	// 'TYPING' LOGIC
 	let typing = false;
 	let textboxValue = '';
 
@@ -101,7 +103,7 @@ const connect = (name, chatRoom, moniker) => {
 		}
 	});
 
-	// 'Typing' response from server event
+	// 'TYPING...' RESPONSE FROM SERVER EVENT
 	socket.on('display', (data) => {
 
     	if(data.typing==true) {

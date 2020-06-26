@@ -48,7 +48,7 @@ tech.on('connection', function (socket) {
 
     // Display message to everyone, including yourself
   	socket.on('message', (data)=> {
-  		tech.in(data.room).emit('message', { message: data.chatMsg, name: users[socket.id]});
+  		  tech.in(data.room).emit('message', { message: data.chatMsg, name: users[socket.id]});
   	});
 
   	// Typing... event
