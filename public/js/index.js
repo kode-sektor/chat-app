@@ -8,9 +8,11 @@ const timeHumanise = () => {
 	let min = date.getMinutes();	// mins
 	let sec = date.getSeconds();	// secs 
 
+	let AMPM = (hr >= 12) ? 'PM' : 'AM';
+
 	// Prefix with '0' if second is less than 10
 	(sec) = (sec.toString().length == '1') ? ('0' + sec) : sec;
-	return `<time class='chat-stamp' datetime='${hr}-${min}-${sec}'>${hr}:${min}:${sec}</time>`;
+	return `<time class='chat-stamp' datetime='${hr}-${min}-${sec}'>${hr}:${min}:${sec} ${AMPM}</time>`;
 }
 
 const sanitiseHTML = function (str) {
@@ -34,6 +36,16 @@ const meVsThey = (name) => {
 	return (userMoniker == name) ? true : false;
 }
 
+const loadChatHTML = (chat) => {
+	const newMsg = document.createElement('li');	// create li tag
+
+	$msgList.appendChild(chat);	// append message
+	// append in human readable format
+	// let $msgHTML = `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
+	let $msgHTML = data.message;
+	newMsg.innerHTML = $msgHTML;
+}
+
 const connect = (name, chatRoom, moniker) => {	// called from connect.js
 
 	const room = chatRoom;
@@ -53,6 +65,7 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 			'state' : 'online',
 			'name' : data.name
 		});
+		console.log (data)
 	});
 
 	// When user disconnects, inform other users
@@ -62,6 +75,11 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 			'state' : 'offline',
 			'name' : data.name
 		});
+	});
+
+	socket.on('load-chats', (data) => {
+		console.log (data);
+	    $msgList.innerHTML = data;
 	});
 
 	// Listen to submission of chat and then emit message in room (everyone inc. you)
@@ -94,16 +112,17 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 		// Compare if the username emitted is the same as that which was collected
 		// from user input in dialogue modal form
 
-		let my = (meVsThey(data.id)) ? '' : 'other-';  // create new class for others
-		let msgName = (meVsThey(data.id)) ? 'You' : data.id;
+		/*let my = (meVsThey(data.id)) ? '' : 'other-';  // create new class for others
+		let msgName = (meVsThey(data.id)) ? 'You' : data.id;*/
+		
 
-		const newMsg = document.createElement('li');	// create li tag
-		newMsg.classList.add(`${my}msg`);	// insert message
+/*		const newMsg = document.createElement('li');	// create li tag
+
 		$msgList.appendChild(newMsg);	// append message
 		// append in human readable format
 		// let $msgHTML = `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
 		let $msgHTML = data.message;
-		newMsg.innerHTML = $msgHTML;
+		newMsg.innerHTML = $msgHTML;*/
 
 	});
 

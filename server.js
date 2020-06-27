@@ -10,16 +10,13 @@ const port = 5001;
 
 // Fetch from database
 
-function assembleChat (room, chatDB) {
+function saveChat (room, chatDB) {
 
     let data = fs.readFileSync('db.json', 'utf8');
 
-    console.log(room, chatDB)
+    // console.log(room, chatDB)
 
     data = JSON.parse(data);
-
-    console.log(data);
-    console.log(data.room);
 
     data[room].push(chatDB);
     data = JSON.stringify(data);
@@ -32,11 +29,25 @@ function assembleChat (room, chatDB) {
 
 }
 
+const loadChats = (room) => {
+
+    let data = fs.readFileSync('db.json', 'utf8');
+    data = JSON.parse(data);
+
+    if ((data[room]).length > 0) {
+       let chats = data[room].map(chat => chat);
+
+       return chats;
+    }
+
+    function finished (err) {
+        console.log(err);
+    }
+}
+
 const meVsThey = (otherName, userMoniker) => {
    return (userMoniker == otherName) ? true : false;
 }
-
-// assembleChat();
 
 
 /*try {
@@ -92,23 +103,39 @@ tech.on('connection', function (socket) {
     		// Broadcast message 
     		if (data.name != null) {
     		    socket.broadcast.emit('user-connected', data);
+
+             // Load chats when user first joins room
+             let chats = loadChats(data.room);
+            tech.in(data.room).emit('load-chats', { chats });
     		}
 
   	});
 
+
     // Display message to everyone, including yourself
   	socket.on('message', (data) => {
-
+        let $msgList;
+        let $msgHTMLDB;
         let otherName = users[socket.id];
+
+        let my = (meVsThey(otherName)) ? 'other-' : '';  // create new class for others
+        let msgName = (meVsThey(otherName)) ? otherName : 'You';
+
+        const newMsg = (`${my}msg`); // li class
+
+        // console.log(my, msgName, newMsg);
 
         // Compare if the username emitted is the same as that which was collected
         // from user input in dialogue modal form
         //let my = (meVsThey(otherName, data.userMoniker)) ? '' : 'other-';  // create new class for others
-        let msgName = (meVsThey(otherName, data.userMoniker)) ? 'You' : data.userMoniker;
         
         let msgHTML = `<span class="user">${data.userMoniker}: </span>  ${data.chatMsg} - ${data.humanisedTime}`;
+        $msgHTMLDB = `<div class='${newMsg}'>${msgHTML}</div>`;
 
-        assembleChat(users['room'], msgHTML);
+        console.log ($msgHTMLDB);
+
+
+        saveChat(users['room'], $msgHTMLDB);
 
         // console.log(users)
 
@@ -116,7 +143,7 @@ tech.on('connection', function (socket) {
         //let msgHTML = `<span class="user">otherName: </span>  ${data.chatMsg} - ${data.humanisedTime}`;
 
   		  // tech.in(data.room).emit('message', { message: data.chatMsg, name: users[socket.id]});
-        tech.in(data.room).emit('message', { message: msgHTML, id: users[socket.id]});
+        tech.in(data.room).emit('message', { message: msgHTMLDB });
 
   	});
 
