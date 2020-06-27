@@ -34,7 +34,50 @@ const meVsThey = (name) => {
 	return userMoniker == (name) ? true : false;
 }
 
-const connect = (name, chatRoom, moniker) => {
+
+// DATABASE METHODS
+const insertDB = () => {
+	const controller = new AbortController();	// Control timeout
+	const url = '/db.json';
+
+	const options = {
+	  method: 'POST',
+	  headers: {
+	    'Accept': 'application/json',
+	    'Content-Type': 'application/json;charset=UTF-8'
+	  },
+	  body: JSON.stringify({
+
+	  })
+	};
+
+	let promise = fetch(url, options);
+	let timeoutId = setTimeout(() => controller.abort(), 40);		//control timeout
+
+	promise.then(response => {
+		// handle response
+		let chatDBparsed = response.json();
+		chatDBparsed.push(
+			{        //add the employee
+			    firstName:"Mike",
+			    lastName:"Rut",
+			    time:"10:00 am",
+			    email:"rut@bah.com",
+			    phone:"800-888-8888",
+			    image:"images/mike.jpg"
+			}
+		);
+
+		
+
+
+	}).catch(error => {
+		console.error('timeout exceeded');
+	});
+
+}
+
+const connect = (name, chatRoom, moniker) => {	// called from connect.js
 
 	const room = chatRoom;
 
@@ -43,23 +86,24 @@ const connect = (name, chatRoom, moniker) => {
 
 	const socket = io.connect('/tech');
 
-	socket.emit('join', {name, room});
+	// Moniker and room are the most important details when connecting
+	socket.emit('join', {name: name, room: room});
 
 	// When user makes connection, inform other users
-	socket.on('user-connected', name => {
+	socket.on('user-connected', data => {
 		logged({
 			'msgList' : $msgList,
 			'state' : 'online',
-			'name' : name
+			'name' : data.name
 		});
 	});
 
 	// When user disconnects, inform other users
-	socket.on('user-disconnected', name => {
+	socket.on('user-disconnected', data => {
 		logged({
 			'msgList' : $msgList,
 			'state' : 'offline',
-			'name' : name
+			'name' : data.name
 		});
 	});
 
@@ -120,7 +164,10 @@ const connect = (name, chatRoom, moniker) => {
     		}
 
 		} else {
-			document.querySelector('.is-typing').remove();
+			let $isTyping = document.querySelector('.is-typing');
+			if ($isTyping !== null) {
+				$isTyping.remove();
+			}
 		}
 	});
 }

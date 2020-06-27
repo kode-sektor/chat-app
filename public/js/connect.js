@@ -1,4 +1,6 @@
 let userMoniker = '';
+const chatDB = require('/db.json');
+console.log(chatDB);
 
 // Listen to submission of dialogue form 
 const $dialogueForm = document.getElementById('chat-user');
