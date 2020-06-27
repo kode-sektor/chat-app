@@ -1,33 +1,39 @@
+
 const express = require('express');
 const app = express();
 const path = require('path');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+const fs = require('fs');
 const port = 5001;
+
 
 // Fetch from database
 
-function assembleChat () {
-  const fs = require('fs');
-  let chatData = {"moniker" : "Kay"};
+function assembleChat (room, chatDB) {
 
-  let data = fs.readFileSync('db.json', 'utf8');
+    let data = fs.readFileSync('db.json', 'utf8');
 
-  data = JSON.parse(data);
+    console.log(room, chatDB)
 
-  data.chatDB.push(chatData);
-  data = JSON.stringify(data);
+    data = JSON.parse(data);
 
-  fs.writeFile('db.json', data, finished);
+    console.log(data);
+    console.log(data.room);
 
-  function finished (err) {
-      console.log(err);
-  }
+    data[room].push(chatDB);
+    data = JSON.stringify(data);
+
+    fs.writeFile('db.json', data, finished);
+
+    function finished (err) {
+        console.log(err);
+    }
 
 }
 
 const meVsThey = (otherName, userMoniker) => {
-  return (userMoniker == otherName) ? true : false;
+   return (userMoniker == otherName) ? true : false;
 }
 
 // assembleChat();
@@ -81,6 +87,7 @@ tech.on('connection', function (socket) {
         /*Save current user's moniker on 'join' event. This will be used later to compare if its same 
         user on form 'submit' event. */
   		  users[socket.id] = data.name; 
+        users['room'] = data.room;
 
     		// Broadcast message 
     		if (data.name != null) {
@@ -101,13 +108,16 @@ tech.on('connection', function (socket) {
         
         let msgHTML = `<span class="user">${data.userMoniker}: </span>  ${data.chatMsg} - ${data.humanisedTime}`;
 
+        assembleChat(users['room'], msgHTML);
+
+        // console.log(users)
+
         //also worked too. 
         //let msgHTML = `<span class="user">otherName: </span>  ${data.chatMsg} - ${data.humanisedTime}`;
 
   		  // tech.in(data.room).emit('message', { message: data.chatMsg, name: users[socket.id]});
         tech.in(data.room).emit('message', { message: msgHTML, id: users[socket.id]});
 
-      //  assembleChat();
   	});
 
     socket.on('disconnect', () => {
