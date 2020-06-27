@@ -27,11 +27,11 @@ const logged = ({msgList, state, name}) => {
 	newMsg.classList.add('joined');	// style
 	msgList.appendChild(newMsg);	// append HTML 
 	// Display logged message
-	newMsg.innerHTML= `<span><span class="other-user">${name}</span> has ${connected}</span>`;	
+	newMsg.innerHTML= `<span><span class="other-user">${name.toUpperCase()}</span> has ${connected}</span>`;	
 }
 
 const meVsThey = (name) => {
-	return userMoniker == (name) ? true : false;
+	return (userMoniker == name) ? true : false;
 }
 
 const connect = (name, chatRoom, moniker) => {	// called from connect.js
@@ -81,7 +81,7 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 			chatMsg,
 			room,
 			humanisedTime
-		}
+		};
 
 		// socket.emit('message', {chatMsg, room});	
 		socket.emit('message', {...userDetails});	
@@ -90,19 +90,19 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 
 	});
 
-	socket.on('message', (msg) => {
+	socket.on('message', (data) => {
 		// Compare if the username emitted is the same as that which was collected
 		// from user input in dialogue modal form
-		let my = (meVsThey(msg.name)) ? '' : 'other-';	// create new class for others
-		let msgName = (meVsThey(msg.name)) ? 'You' : msg.name;
-		console.log(msg);
+
+		let my = (meVsThey(data.id)) ? '' : 'other-';  // create new class for others
+		let msgName = (meVsThey(data.id)) ? 'You' : data.id;
 
 		const newMsg = document.createElement('li');	// create li tag
 		newMsg.classList.add(`${my}msg`);	// insert message
 		$msgList.appendChild(newMsg);	// append message
 		// append in human readable format
 		// let $msgHTML = `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
-		let $msgHTML = `<span class="user">${msgName}: </span>  ${msg.message} - ${humanisedTime}`;
+		let $msgHTML = data.message;
 		newMsg.innerHTML = $msgHTML;
 
 	});
@@ -124,7 +124,7 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 	// 'TYPING...' RESPONSE FROM SERVER EVENT
 	socket.on('display', (data) => {
 
-    	if(data.typing==true) {
+    	if (data.typing==true) {
 
     		let $isTyping = document.querySelector('.is-typing');
     		// use null instead of $isTyping.length <= 1 because this condition may not fire
@@ -133,8 +133,11 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
     			const newMsg = document.createElement('li');	// create new li to append
     			newMsg.classList.add('is-typing');	// style
     			$msgList.appendChild(newMsg);	// append HTML 
+
     			// Display logged message
-    			newMsg.innerHTML= `<span><span class="other-user">${name}</span> is typing...</span>`;	
+    			let user = data.user;
+    			user = user.charAt(0).toUpperCase() + user.slice(1);
+    			newMsg.innerHTML= `<span><span class="other-user">${user}</span> is typing...</span>`;	
     		}
 
 		} else {

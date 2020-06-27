@@ -26,7 +26,11 @@ function assembleChat () {
 
 }
 
-assembleChat();
+const meVsThey = (otherName, userMoniker) => {
+  return (userMoniker == otherName) ? true : false;
+}
+
+// assembleChat();
 
 
 /*try {
@@ -78,28 +82,46 @@ tech.on('connection', function (socket) {
         user on form 'submit' event. */
   		  users[socket.id] = data.name; 
 
-		// Broadcast message 
-		if (data.name != null) {
-		    socket.broadcast.emit('user-connected', data);
-		}
+    		// Broadcast message 
+    		if (data.name != null) {
+    		    socket.broadcast.emit('user-connected', data);
+    		}
 
   	});
 
     // Display message to everyone, including yourself
   	socket.on('message', (data) => {
-  		 tech.in(data.room).emit('message', { message: data.chatMsg, name: users[socket.id]});
 
-       
+        let otherName = users[socket.id];
+
+        // Compare if the username emitted is the same as that which was collected
+        // from user input in dialogue modal form
+        //let my = (meVsThey(otherName, data.userMoniker)) ? '' : 'other-';  // create new class for others
+        let msgName = (meVsThey(otherName, data.userMoniker)) ? 'You' : data.userMoniker;
+        
+        let msgHTML = `<span class="user">${data.userMoniker}: </span>  ${data.chatMsg} - ${data.humanisedTime}`;
+
+        //also worked too. 
+        //let msgHTML = `<span class="user">otherName: </span>  ${data.chatMsg} - ${data.humanisedTime}`;
+
+  		  // tech.in(data.room).emit('message', { message: data.chatMsg, name: users[socket.id]});
+        tech.in(data.room).emit('message', { message: msgHTML, id: users[socket.id]});
+
+      //  assembleChat();
   	});
 
+    socket.on('disconnect', () => {
+        socket.broadcast.emit('user-disconnected', users[socket.id]);
+        delete users[socket.id];
+    })
+
   	// Typing... event
-  	socket.on('typing', (data)=>{
+  	socket.on('typing', (data) => {
   	   if(data.typing==true) {
   	      socket.broadcast.emit('display', data);
   	   } else {
   	  	  socket.broadcast.emit('display', data);
   	   }
   	});
-
 
 });
