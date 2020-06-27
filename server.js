@@ -14,7 +14,7 @@ function saveChat (room, chatDB) {
 
     let data = fs.readFileSync('db.json', 'utf8');
 
-    // console.log(room, chatDB)
+    console.log(room, chatDB)
 
     data = JSON.parse(data);
 
@@ -93,71 +93,46 @@ tech.on('connection', function (socket) {
     // Listen for a "newuser" message
     socket.on('join', (data) => {
 
-  		  socket.join(data.room);
+		socket.join(data.room);
 
-        /*Save current user's moniker on 'join' event. This will be used later to compare if its same 
-        user on form 'submit' event. */
-  		  users[socket.id] = data.name; 
-        users['room'] = data.room;
+	    /*Save current user's moniker on 'join' event. This will be used later to compare if its same 
+	    user on form 'submit' event. */
+		users[socket.id] = data.name; 
+    	users['room'] = data.room;
 
-    		// Broadcast message 
-    		if (data.name != null) {
-    		    socket.broadcast.emit('user-connected', data);
+		// Broadcast message 
+		if (data.name != null) {
+		    socket.broadcast.emit('user-connected', data);
 
-             // Load chats when user first joins room
-             let chats = loadChats(data.room);
-            tech.in(data.room).emit('load-chats', { chats });
-    		}
+	        // Load chats when user first joins room
+	        let chats = loadChats(data.room);
+	        console.log (chats);
+	        tech.in(data.room).emit('load-chats', { chats : chats });
+		}
 
   	});
+
+    socket.on('save-chat', (data) => {
+        saveChat(users['room'], data.$msgHTMLDB);
+    });
 
 
     // Display message to everyone, including yourself
   	socket.on('message', (data) => {
-        let $msgList;
-        let $msgHTMLDB;
-        let otherName = users[socket.id];
-
-        let my = (meVsThey(otherName)) ? 'other-' : '';  // create new class for others
-        let msgName = (meVsThey(otherName)) ? otherName : 'You';
-
-        const newMsg = (`${my}msg`); // li class
-
-        // console.log(my, msgName, newMsg);
-
-        // Compare if the username emitted is the same as that which was collected
-        // from user input in dialogue modal form
-        //let my = (meVsThey(otherName, data.userMoniker)) ? '' : 'other-';  // create new class for others
-        
-        let msgHTML = `<span class="user">${data.userMoniker}: </span>  ${data.chatMsg} - ${data.humanisedTime}`;
-        $msgHTMLDB = `<div class='${newMsg}'>${msgHTML}</div>`;
-
-        console.log ($msgHTMLDB);
-
-
-        saveChat(users['room'], $msgHTMLDB);
-
-        // console.log(users)
-
-        //also worked too. 
-        //let msgHTML = `<span class="user">otherName: </span>  ${data.chatMsg} - ${data.humanisedTime}`;
-
-  		  // tech.in(data.room).emit('message', { message: data.chatMsg, name: users[socket.id]});
-        tech.in(data.room).emit('message', { message: msgHTMLDB });
-
+  		tech.in(data.room).emit('message', { message: data.chatMsg, otherName: users[socket.id], moniker: data.userMoniker});
   	});
 
     socket.on('disconnect', () => {
         socket.broadcast.emit('user-disconnected', users[socket.id]);
         delete users[socket.id];
-    })
+    });
 
   	// Typing... event
   	socket.on('typing', (data) => {
   	   if(data.typing==true) {
-  	      socket.broadcast.emit('display', data);
+  	      	socket.broadcast.emit('display', data);
   	   } else {
-  	  	  socket.broadcast.emit('display', data);
+  	  	  	socket.broadcast.emit('display', data);
   	   }
   	});
 

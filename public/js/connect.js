@@ -5,7 +5,9 @@ const $dialogueForm = document.getElementById('chat-user');
 const $dialogModal = document.getElementById('prompt-modal-bg');
 const $moniker = document.getElementById('moniker');
 let $textbox = document.getElementById('txt');
+
 let humanisedTime = '';
+const $chatPane = document.getElementById("chat-pane");
 
 let path = window.location.pathname;
 let file = path.split("/").pop();

@@ -36,14 +36,19 @@ const meVsThey = (name) => {
 	return (userMoniker == name) ? true : false;
 }
 
-const loadChatHTML = (chat) => {
+const loadChatHTML = (chat, msgList) => {
+
 	const newMsg = document.createElement('li');	// create li tag
 
-	$msgList.appendChild(chat);	// append message
+	msgList.appendChild(newMsg);	// append message
 	// append in human readable format
 	// let $msgHTML = `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
-	let $msgHTML = data.message;
+	let $msgHTML = chat;
 	newMsg.innerHTML = $msgHTML;
+}
+
+const triggerScroll = () => {
+	$chatPane.scrollTop = $chatPane.scrollHeight;
 }
 
 const connect = (name, chatRoom, moniker) => {	// called from connect.js
@@ -65,7 +70,6 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 			'state' : 'online',
 			'name' : data.name
 		});
-		console.log (data)
 	});
 
 	// When user disconnects, inform other users
@@ -78,8 +82,14 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 	});
 
 	socket.on('load-chats', (data) => {
-		console.log (data);
-	    $msgList.innerHTML = data;
+
+		(data.chats).forEach( (chat, indx) => {
+			loadChatHTML(chat, $msgList);
+
+			if (indx == ((data.chats).length) - 1) {
+				triggerScroll();
+			}
+		});
 	});
 
 	// Listen to submission of chat and then emit message in room (everyone inc. you)
@@ -92,7 +102,7 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 		// On 'emit message' (which happens when user submits form), save details in object
 		// then pass as props to server
 
-		humanisedTime = timeHumanise();
+		
 
 		const userDetails =  {
 			userMoniker,
@@ -101,6 +111,8 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 			humanisedTime
 		};
 
+		const userDetails();
+
 		// socket.emit('message', {chatMsg, room});	
 		socket.emit('message', {...userDetails});	
 
@@ -108,23 +120,25 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 
 	});
 
+
 	socket.on('message', (data) => {
 		// Compare if the username emitted is the same as that which was collected
 		// from user input in dialogue modal form
 
-		/*let my = (meVsThey(data.id)) ? '' : 'other-';  // create new class for others
-		let msgName = (meVsThey(data.id)) ? 'You' : data.id;*/
+		let my = (meVsThey(data.otherName)) ? '' : 'other-';  // create new class for others
+		let msgName = (meVsThey(data.otherName)) ? 'You' : data.otherName;
+
+		const msgClass = (`${my}msg`); // li class
 		
+		let msgHTML = `<span class="user">${data.moniker}: </span>  ${data.message} - ${timeHumanise()}`;
+		let $msgHTMLDB = `<div class='${msgClass}'>${msgHTML}</div>`;
 
-/*		const newMsg = document.createElement('li');	// create li tag
+		loadChatHTML($msgHTMLDB, $msgList);
+		triggerScroll();
 
-		$msgList.appendChild(newMsg);	// append message
-		// append in human readable format
-		// let $msgHTML = `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
-		let $msgHTML = data.message;
-		newMsg.innerHTML = $msgHTML;*/
-
+		socket.emit('save-chat', {$msgHTMLDB, room});
 	});
+
 
 	// 'TYPING' LOGIC
 	let typing = false;
