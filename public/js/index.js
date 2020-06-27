@@ -48,6 +48,7 @@ const loadChatHTML = (chat, msgList) => {
 }
 
 const triggerScroll = () => {
+	const $chatPane = document.getElementById("messages");
 	$chatPane.scrollTop = $chatPane.scrollHeight;
 }
 
@@ -83,13 +84,16 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 
 	socket.on('load-chats', (data) => {
 
-		(data.chats).forEach( (chat, indx) => {
-			loadChatHTML(chat, $msgList);
+		if ((data.chats) != undefined) {
+			(data.chats).forEach( (chat, indx) => {
 
-			if (indx == ((data.chats).length) - 1) {
-				triggerScroll();
-			}
-		});
+				loadChatHTML(chat, $msgList);
+
+				if (indx == ((data.chats).length) - 1) {
+					triggerScroll();
+				}
+			});
+		}
 	});
 
 	// Listen to submission of chat and then emit message in room (everyone inc. you)
@@ -102,8 +106,6 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 		// On 'emit message' (which happens when user submits form), save details in object
 		// then pass as props to server
 
-		
-
 		const userDetails =  {
 			userMoniker,
 			chatMsg,
@@ -111,15 +113,16 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 			humanisedTime
 		};
 
-		const userDetails();
-
 		// socket.emit('message', {chatMsg, room});	
 		socket.emit('message', {...userDetails});	
 
 		$textbox.value = '';	// clear textbox
+		let isTyping = document.querySelector('.is-typing');
 
+		if (isTyping !== null) {
+			isTyping.remove();	// remove any notorious lingering '.is-typing'
+		}
 	});
-
 
 	socket.on('message', (data) => {
 		// Compare if the username emitted is the same as that which was collected

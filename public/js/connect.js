@@ -7,7 +7,6 @@ const $moniker = document.getElementById('moniker');
 let $textbox = document.getElementById('txt');
 
 let humanisedTime = '';
-const $chatPane = document.getElementById("chat-pane");
 
 let path = window.location.pathname;
 let file = path.split("/").pop();

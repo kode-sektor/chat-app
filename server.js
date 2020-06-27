@@ -10,56 +10,19 @@ const port = 5001;
 
 // Fetch from database
 
-function saveChat (room, chatDB) {
-
-    let data = fs.readFileSync('db.json', 'utf8');
-
-    console.log(room, chatDB)
-
-    data = JSON.parse(data);
-
-    data[room].push(chatDB);
-    data = JSON.stringify(data);
-
-    fs.writeFile('db.json', data, finished);
-
-    function finished (err) {
-        console.log(err);
-    }
-
+function saveChat (json='""') {
+	return fs.writeFileSync('db.json', JSON.stringify(json,null,2))
 }
 
 const loadChats = (room) => {
-
-    let data = fs.readFileSync('db.json', 'utf8');
-    data = JSON.parse(data);
-
-    if ((data[room]).length > 0) {
-       let chats = data[room].map(chat => chat);
-
-       return chats;
-    }
-
-    function finished (err) {
-        console.log(err);
-    }
+	return JSON.parse(
+		fs.existsSync('db.json') ? fs.readFileSync('db.json').toString() : '""'
+	)
 }
 
 const meVsThey = (otherName, userMoniker) => {
    return (userMoniker == otherName) ? true : false;
 }
-
-
-/*try {
-    var data = fs.readFileSync(validFile, 'utf8');
-    console.log('sync readFile');
-    console.log(data);
-}
-catch (e) {
-    console.log(e);
-}
-}); */
-
 
 
 server.listen(port, ()=> {
@@ -105,15 +68,22 @@ tech.on('connection', function (socket) {
 		    socket.broadcast.emit('user-connected', data);
 
 	        // Load chats when user first joins room
-	        let chats = loadChats(data.room);
-	        console.log (chats);
-	        tech.in(data.room).emit('load-chats', { chats : chats });
+	        // let chats = loadChats(data.room);
+	        let chatsDB = loadChats('db.json');
+	        // console.log (chats);
+
+	        // load chats to only yourself (privately) to avoid displaying 2ce
+	        socket.emit('load-chats', { chats : chatsDB[data.room] });
 		}
 
   	});
 
     socket.on('save-chat', (data) => {
-        saveChat(users['room'], data.$msgHTMLDB);
+
+    	let chatsToSave = loadChats('db.json');
+    	chatsToSave[users['room']].push(data.$msgHTMLDB);
+        saveChat(chatsToSave);
+
     });
 
 
