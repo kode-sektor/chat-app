@@ -34,49 +34,6 @@ const meVsThey = (name) => {
 	return userMoniker == (name) ? true : false;
 }
 
-
-// DATABASE METHODS
-const insertDB = () => {
-	const controller = new AbortController();	// Control timeout
-	const url = '/db.json';
-
-	const options = {
-	  method: 'POST',
-	  headers: {
-	    'Accept': 'application/json',
-	    'Content-Type': 'application/json;charset=UTF-8'
-	  },
-	  body: JSON.stringify({
-
-	  })
-	};
-
-	let promise = fetch(url, options);
-	let timeoutId = setTimeout(() => controller.abort(), 40);		//control timeout
-
-	promise.then(response => {
-		// handle response
-		let chatDBparsed = response.json();
-		chatDBparsed.push(
-			{        //add the employee
-			    firstName:"Mike",
-			    lastName:"Rut",
-			    time:"10:00 am",
-			    email:"rut@bah.com",
-			    phone:"800-888-8888",
-			    image:"images/mike.jpg"
-			}
-		);
-
-		
-
-
-	}).catch(error => {
-		console.error('timeout exceeded');
-	});
-
-}
-
 const connect = (name, chatRoom, moniker) => {	// called from connect.js
 
 	const room = chatRoom;
@@ -87,7 +44,7 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 	const socket = io.connect('/tech');
 
 	// Moniker and room are the most important details when connecting
-	socket.emit('join', {name: name, room: room});
+	socket.emit('join', {name, room});
 
 	// When user makes connection, inform other users
 	socket.on('user-connected', data => {
@@ -113,24 +70,41 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 
 		// neutralise XSS attack and eliminate unnecessary whitespace
 		let chatMsg = sanitiseHTML(($textbox.value).trim());	
-		socket.emit('message', {chatMsg, room});	// emit message 
+
+		// On 'emit message' (which happens when user submits form), save details in object
+		// then pass as props to server
+
+		humanisedTime = timeHumanise();
+
+		const userDetails =  {
+			userMoniker,
+			chatMsg,
+			room,
+			humanisedTime
+		}
+
+		// socket.emit('message', {chatMsg, room});	
+		socket.emit('message', {...userDetails});	
+
 		$textbox.value = '';	// clear textbox
 
 	});
 
-	socket.on('message', (msg)=> {
+	socket.on('message', (msg) => {
 		// Compare if the username emitted is the same as that which was collected
 		// from user input in dialogue modal form
 		let my = (meVsThey(msg.name)) ? '' : 'other-';	// create new class for others
 		let msgName = (meVsThey(msg.name)) ? 'You' : msg.name;
+		console.log(msg);
 
 		const newMsg = document.createElement('li');	// create li tag
 		newMsg.classList.add(`${my}msg`);	// insert message
 		$msgList.appendChild(newMsg);	// append message
 		// append in human readable format
-		newMsg.innerHTML= `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
+		// let $msgHTML = `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
+		let $msgHTML = `<span class="user">${msgName}: </span>  ${msg.message} - ${humanisedTime}`;
+		newMsg.innerHTML = $msgHTML;
 
-		// Save to DB Logic
 	});
 
 	// 'TYPING' LOGIC

@@ -6,67 +6,38 @@ const io = require('socket.io')(server);
 const port = 5001;
 
 // Fetch from database
-const fs = require('fs');
-let chatData = {"msg" : "Thank you for your word"};
 
-/*fs.readFile('db.json', 'utf8', function(err, data) {
-    if (err) {
-        // console.log(err);
-    } else {
-        if (data) {
-          chatDB = JSON.parse(data);
-          console.log('data: true');
-        } else {
-            chatDB = [];
-            console.log('data: false');
-        }
-        console.log (chatDB);
-        chatDB.push(...chatData);
-        chatDB = JSON.stringify(chatData);
+function assembleChat () {
+  const fs = require('fs');
+  let chatData = {"moniker" : "Kay"};
 
-        console.log(chatDB);
-        fs.writeFile('db.json', chatDB, 'utf-8', function (err, data) {
-            if (err) throw err;
-        });
-    }
-}); */
-
-// Alternative using readFileSync
-
-/*
-try {
   let data = fs.readFileSync('db.json', 'utf8');
-  console.log('sync readFile');
-  console.log(data);
+
+  data = JSON.parse(data);
+
+  data.chatDB.push(chatData);
+  data = JSON.stringify(data);
+
+  fs.writeFile('db.json', data, finished);
+
+  function finished (err) {
+      console.log(err);
+  }
+
+}
+
+assembleChat();
+
+
+/*try {
+    var data = fs.readFileSync(validFile, 'utf8');
+    console.log('sync readFile');
+    console.log(data);
 }
 catch (e) {
-  console.log(e);
+    console.log(e);
 }
-*/
-
-let data = fs.readFileSync('db.json', 'utf8');
-let dataLngth = Object.keys(data).length === 0;
-
-let chatDB = [];
-data = JSON.parse(data);
-
-if (dataLngth) {
-  console.log('data: true');
-} else {
-    console.log('data: false');
-}
-
-data.chatDB.push(chatData);
-
-data = JSON.stringify(data);
-
-fs.writeFile('db.json', data, finished);
-
-function finished (err) {
-    console.log(err);
-}
-
-
+}); */
 
 
 
@@ -102,7 +73,10 @@ tech.on('connection', function (socket) {
     socket.on('join', (data) => {
 
   		  socket.join(data.room);
-  		  users[socket.id] = data.name;
+
+        /*Save current user's moniker on 'join' event. This will be used later to compare if its same 
+        user on form 'submit' event. */
+  		  users[socket.id] = data.name; 
 
 		// Broadcast message 
 		if (data.name != null) {
@@ -112,8 +86,10 @@ tech.on('connection', function (socket) {
   	});
 
     // Display message to everyone, including yourself
-  	socket.on('message', (data)=> {
+  	socket.on('message', (data) => {
   		 tech.in(data.room).emit('message', { message: data.chatMsg, name: users[socket.id]});
+
+       
   	});
 
   	// Typing... event
