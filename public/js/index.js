@@ -82,6 +82,7 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 		});
 	});
 
+	// Fired on response to user joining room
 	socket.on('load-chats', (data) => {
 
 		if ((data.chats) != undefined) {
@@ -117,11 +118,29 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 		socket.emit('message', {...userDetails});	
 
 		$textbox.value = '';	// clear textbox
-		let isTyping = document.querySelector('.is-typing');
 
+		let isTyping = document.querySelector('.is-typing');
 		if (isTyping !== null) {
 			isTyping.remove();	// remove any notorious lingering '.is-typing'
 		}
+
+		/*NOTE:
+		  - Normally, when form is submitted, you want to save the chats in database.
+
+		  - And while it can save, the problem is it won't differentiate you from the
+		  2nd chatter on the server. Such logic only works on the front end (this 
+		  very index.js file.) 
+
+		  - So the best thing to do first emit the details of the current chatter like
+		  the current chat, the room, time moniker etc, and bring back the detail of the 
+		  second chatter (users.socked[id]), then do the logic on this file via the 
+		  exposed custom 'message' event just right below. 
+
+		  - Then after working on the logic, emit once again on a custom event 'save-chat', 
+		  the chat details and the room to be saved in the server database this time 
+		  around.
+
+		*/
 	});
 
 	socket.on('message', (data) => {
@@ -140,6 +159,10 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 		triggerScroll();
 
 		socket.emit('save-chat', {$msgHTMLDB, room});
+
+		// Save chat to local DB (as per the assignment requirement)
+		localChatDB[room].push({$msgHTMLDB});
+		console.log(localChatDB);
 	});
 
 
