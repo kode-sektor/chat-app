@@ -63,11 +63,10 @@ tech.on('connection', function (socket) {
   		users[socket.id] = data.name; 
       users['room'] = data.room;
 
-  		// Broadcast message 
+  		// Broadcast message (Load chats when user first joins room)
   		if (data.name != null) {
   		    socket.broadcast.emit('user-connected', data);
 
-  	        // Load chats when user first joins room
   	        // let chats = loadChats(data.room);
   	        let chatsDB = loadChats('db.json');
   	        // console.log (chats);
@@ -79,7 +78,7 @@ tech.on('connection', function (socket) {
   	});
 
     socket.on('save-chat', (data) => {
-
+        console.log (users[socket.id]);
     	  let chatsToSave = loadChats('db.json');
     	  chatsToSave[users['room']].push(data.$msgHTMLDB);  // users['room'] is saved when user first joins room
         saveChat(chatsToSave);

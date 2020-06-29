@@ -84,8 +84,11 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 
 	// Fired on response to user joining room
 	socket.on('load-chats', (data) => {
-
+			console.log (data);
 		if ((data.chats) != undefined) {
+			localChatDB = data.chats;	// Store the chat Array locally on connection
+			console.log (localChatDB);
+			console.log(typeof localChatDB);
 			(data.chats).forEach( (chat, indx) => {
 
 				loadChatHTML(chat, $msgList);
@@ -152,7 +155,7 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 
 		const msgClass = (`${my}msg`); // li class
 		
-		let msgHTML = `<span class="user">${data.moniker}: </span>  ${data.message} - ${timeHumanise()}`;
+		let msgHTML = `<span class="user">${msgName}: </span>  ${data.message} - ${timeHumanise()}`;
 		let $msgHTMLDB = `<div class='${msgClass}'>${msgHTML}</div>`;
 
 		loadChatHTML($msgHTMLDB, $msgList);
@@ -162,7 +165,7 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 
 		// Save chat to local DB (as per the assignment requirement)
 		localChatDB[room].push({$msgHTMLDB});
-		console.log(localChatDB);
+		// console.log(localChatDB);
 	});
 
 
