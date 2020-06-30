@@ -1,18 +1,31 @@
 {
-  "wddm-121": [
-    {
-      "$msgHTMLDB": "<div class='other-msg'><span class=\"user\">kay: </span>  Hmmn - <time class='chat-stamp' datetime='7-00-38'>7:00:38 AM</time></div>"
-    },
-    {
-      "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  Okay boss - <time class='chat-stamp' datetime='7-01-11'>7:01:11 AM</time></div>"
-    },
-    {
-      "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  hmmn - <time class='chat-stamp' datetime='7-20-08'>7:20:08 AM</time></div>"
-    },
-    {
-      "$msgHTMLDB": "<div class='other-msg'><span class=\"user\">kay: </span>  The way - <time class='chat-stamp' datetime='7-20-12'>7:20:12 AM</time></div>"
-    }
-  ],
-  "wddm-122": [],
-  "wddm-123": []
+  "chats": {
+    "wddm-121": [
+      {
+        "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  Hmnn - <time class='chat-stamp' datetime='8-26-51'>8:26:51 AM</time></div>"
+      },
+      {
+        "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  Try this - <time class='chat-stamp' datetime='8-26-53'>8:26:53 AM</time></div>"
+      },
+      {
+        "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  Hmmn - <time class='chat-stamp' datetime='8-29-54'>8:29:54 AM</time></div>"
+      },
+      {
+        "$msgHTMLDB": "<div class='other-msg'><span class=\"user\">kay: </span>  okay - <time class='chat-stamp' datetime='8-30-32'>8:30:32 AM</time></div>"
+      },
+      {
+        "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  try this - <time class='chat-stamp' datetime='8-30-45'>8:30:45 AM</time></div>"
+      },
+      {
+        "$msgHTMLDB": "<div class='other-msg'><span class=\"user\">kay: </span>  hmmn - <time class='chat-stamp' datetime='8-51-20'>8:51:20 AM</time></div>"
+      },
+      {
+        "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  do this - <time class='chat-stamp' datetime='8-51-23'>8:51:23 AM</time></div>"
+      }
+    ],
+    "wddm-122": [],
+    "wddm-123": []
+  },
+  "user": "boss",
+  "otherName": "boss"
 }

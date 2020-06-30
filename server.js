@@ -74,17 +74,17 @@ tech.on('connection', function (socket) {
 
             // console.log(users[socket.id]);
   	        // load chats to only yourself (privately) to avoid displaying 2ce
-  	        socket.emit('load-chats', { chats : chatsDB[data.room], user : users[socket.id] });
+  	        socket.emit('load-chats', { chats : chatsDB["chats"], user : users[socket.id], otherName: users[socket.id], moniker: data.userMoniker });
   		}
 
   	});
 
     socket.on('save-chat', (data) => {
-        console.log(users[socket.id]);
         /*if (users[socket.id] == data.moniker) {*/
             let chatsToSave = loadChats('db.json');
             // chatsToSave[users['room']].push(data.$msgHTMLDB);  // users['room'] is saved when user first joins room
             chatsToSave = data.localChatDB;
+
             console.log(chatsToSave);
             saveChat(chatsToSave);
         /*}*/

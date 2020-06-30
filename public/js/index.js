@@ -37,7 +37,7 @@ const meVsThey = (name) => {
 	return (userMoniker == name) ? true : false;
 }
 
-const loadChatHTML = (chat, msgList) => {
+const loadChatHTML = (chat, msgList, me) => {
 
 	console.log(chat);
 
@@ -48,6 +48,24 @@ const loadChatHTML = (chat, msgList) => {
 	// let $msgHTML = `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
 	let $msgHTML = chat;
 	newMsg.innerHTML = $msgHTML;
+
+/*	if (me) {
+		// newMsg.querySelector('div').classList.add('msg');
+	} else {
+		const newmsg = newMsg.querySelectorAll('.msg');
+		const newothermsg = newMsg.querySelectorAll('.other-msg');
+
+		for (let i = 0; i < newmsg.length; i++) {    // cycle through accordion headers
+		    newmsg[i].classList.add('other-msg');
+		        
+		};
+		for (let i = 0; i < newothermsg.length; i++) {    // cycle through accordion headers
+		    newothermsg[i].classList.add('other-msg');
+		        
+		};*/
+
+	
+	console.log(localChatDB);
 
 	/*if (otherUser) {
 		newMsg.querySelector('.msg').classList.add('other-msg');
@@ -93,11 +111,13 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 	// Fired on response to user joining room
 	socket.on('load-chats', (data) => {
 
+		let me = (meVsThey(data.otherName));
+
 		console.log(data);
 		if ((data.chats) != undefined) {
-			localChatDB = data.chats;	// Store the chat Array locally on connection
+			localChatDB = data;	// Store the chat Array locally on connection
 
-			(data.chats).forEach( (chat, indx) => {
+			(data.chats[room]).forEach( (chat, indx) => {
 
 				loadChatHTML(chat['$msgHTMLDB'], $msgList);
 
@@ -152,13 +172,12 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 		loadChatHTML($msgHTMLDB, $msgList);	// Populate page with chats
 		triggerScroll();
 
+		console.log(room);
 		// First save chat to local DB (as per the assignment requirement)
-		localChatDB[room].push({$msgHTMLDB});
+		localChatDB["chats"][room].push({$msgHTMLDB});
 
 		// Now save to server database 
 		socket.emit('save-chat', {localChatDB});
-
-		console.log(localChatDB);
 
 	});
 
