@@ -37,9 +37,7 @@ const meVsThey = (name) => {
 	return (userMoniker == name) ? true : false;
 }
 
-const loadChatHTML = (chat, msgList, me) => {
-
-	console.log(chat);
+const loadChatHTML = (chat, msgList, notme) => {
 
 	const newMsg = document.createElement('li');	// create li tag
 
@@ -49,20 +47,37 @@ const loadChatHTML = (chat, msgList, me) => {
 	let $msgHTML = chat;
 	newMsg.innerHTML = $msgHTML;
 
-/*	if (me) {
+	if (!notme) {
 		// newMsg.querySelector('div').classList.add('msg');
-	} else {
 		const newmsg = newMsg.querySelectorAll('.msg');
 		const newothermsg = newMsg.querySelectorAll('.other-msg');
 
 		for (let i = 0; i < newmsg.length; i++) {    // cycle through accordion headers
+			newmsg[i].classList.remove('msg');
 		    newmsg[i].classList.add('other-msg');
 		        
 		};
 		for (let i = 0; i < newothermsg.length; i++) {    // cycle through accordion headers
-		    newothermsg[i].classList.add('other-msg');
+			newothermsg[i].classList.remove('other-msg');
+		    newothermsg[i].classList.add('msg');		        
+		};
+		console.log('was me');
+	} else {
+		console.log('wasnt me');
+/*		const newmsg = newMsg.querySelectorAll('.msg');
+		const newothermsg = newMsg.querySelectorAll('.other-msg');
+
+		for (let i = 0; i < newmsg.length; i++) {    // cycle through accordion headers
+			newmsg[i].classList.remove('msg');
+		    newmsg[i].classList.add('other-msg');
 		        
+		};
+		for (let i = 0; i < newothermsg.length; i++) {    // cycle through accordion headers
+			newothermsg[i].classList.remove('other-msg');
+		    newothermsg[i].classList.add('msg');		        
 		};*/
+
+	}
 
 	
 	console.log(localChatDB);
@@ -111,15 +126,14 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 	// Fired on response to user joining room
 	socket.on('load-chats', (data) => {
 
-		let me = (meVsThey(data.otherName));
+		let notme = (meVsThey(data.otherName));
 
-		console.log(data);
 		if ((data.chats) != undefined) {
 			localChatDB = data;	// Store the chat Array locally on connection
 
 			(data.chats[room]).forEach( (chat, indx) => {
 
-				loadChatHTML(chat['$msgHTMLDB'], $msgList);
+				loadChatHTML(chat['$msgHTMLDB'], $msgList, notme);
 
 				if (indx == ((data.chats).length) - 1) {
 					triggerScroll();	// Scroll to the end on last iteration

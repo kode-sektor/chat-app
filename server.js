@@ -74,7 +74,9 @@ tech.on('connection', function (socket) {
 
             // console.log(users[socket.id]);
   	        // load chats to only yourself (privately) to avoid displaying 2ce
-  	        socket.emit('load-chats', { chats : chatsDB["chats"], user : users[socket.id], otherName: users[socket.id], moniker: data.userMoniker });
+
+  	        socket.emit('load-chats', { chats : chatsDB["chats"], otherName: users[socket.id], moniker: data.userMoniker });
+            /*tech.in(data.room).emit('load-chats', { chats : chatsDB["chats"], user : users[socket.id], otherName: users[socket.id], moniker: data.userMoniker });*/
   		}
 
   	});

@@ -21,11 +21,14 @@
       },
       {
         "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  do this - <time class='chat-stamp' datetime='8-51-23'>8:51:23 AM</time></div>"
+      },
+      {
+        "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  hmn - <time class='chat-stamp' datetime='9-12-38'>9:12:38 AM</time></div>"
       }
     ],
     "wddm-122": [],
     "wddm-123": []
   },
-  "user": "boss",
-  "otherName": "boss"
+  "user": "kay",
+  "otherName": "kay"
 }
