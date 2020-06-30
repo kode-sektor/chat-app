@@ -1,7 +1,12 @@
 {
   "chats": {
-    "wddm-121": [],
+    "wddm-121": [
+      {
+        "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  boss - <time class='chat-stamp' datetime='10-28-01'>10:28:01 AM</time></div>"
+      }
+    ],
     "wddm-122": [],
     "wddm-123": []
-  }
+  },
+  "otherName": "kay"
 }
