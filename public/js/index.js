@@ -37,7 +37,9 @@ const meVsThey = (name) => {
 	return (userMoniker == name) ? true : false;
 }
 
-const loadChatHTML = (chat, msgList, otherUser="false") => {
+const loadChatHTML = (chat, msgList) => {
+
+	console.log(chat);
 
 	const newMsg = document.createElement('li');	// create li tag
 
@@ -89,29 +91,21 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 	});
 
 	// Fired on response to user joining room
-	socket.on('load-chats', (data) => {/*
-		let currentUser = false;
+	socket.on('load-chats', (data) => {
 
+		console.log(data);
 		if ((data.chats) != undefined) {
 			localChatDB = data.chats;	// Store the chat Array locally on connection
 
 			(data.chats).forEach( (chat, indx) => {
 
-				console.log(userMoniker, data.user);
-				if (userMoniker == data.user) {
-					currentUser = true;
-					alert ('true');
-				} else {
-					alert ('false');
-				}
-
-				loadChatHTML(chat, $msgList, currentUser);
+				loadChatHTML(chat['$msgHTMLDB'], $msgList);
 
 				if (indx == ((data.chats).length) - 1) {
-					triggerScroll();
+					triggerScroll();	// Scroll to the end on last iteration
 				}
 			});
-		}*/
+		}
 	});
 
 	// Listen to submission of chat and then emit message in room (everyone inc. you)
@@ -155,7 +149,7 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 		let msgHTML = `<span class="user">${msgName}: </span>  ${data.message} - ${timeHumanise()}`;
 		let $msgHTMLDB = `<div class='${msgClass}'>${msgHTML}</div>`;
 
-		loadChatHTML($msgHTMLDB, $msgList);
+		loadChatHTML($msgHTMLDB, $msgList);	// Populate page with chats
 		triggerScroll();
 
 		// First save chat to local DB (as per the assignment requirement)

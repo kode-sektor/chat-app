@@ -1,0 +1,18 @@
+{
+  "wddm-121": [
+    {
+      "$msgHTMLDB": "<div class='other-msg'><span class=\"user\">kay: </span>  Hmmn - <time class='chat-stamp' datetime='7-00-38'>7:00:38 AM</time></div>"
+    },
+    {
+      "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  Okay boss - <time class='chat-stamp' datetime='7-01-11'>7:01:11 AM</time></div>"
+    },
+    {
+      "$msgHTMLDB": "<div class='msg'><span class=\"user\">You: </span>  hmmn - <time class='chat-stamp' datetime='7-20-08'>7:20:08 AM</time></div>"
+    },
+    {
+      "$msgHTMLDB": "<div class='other-msg'><span class=\"user\">kay: </span>  The way - <time class='chat-stamp' datetime='7-20-12'>7:20:12 AM</time></div>"
+    }
+  ],
+  "wddm-122": [],
+  "wddm-123": []
+}
