@@ -47,7 +47,7 @@ const loadChatHTML = (chat, msgList, notme) => {
 	let $msgHTML = chat;
 	newMsg.innerHTML = $msgHTML;
 
-	if (!notme) {
+	if (notme) {
 		// newMsg.querySelector('div').classList.add('msg');
 		const newmsg = newMsg.querySelectorAll('.msg');
 		const newothermsg = newMsg.querySelectorAll('.other-msg');
@@ -61,31 +61,10 @@ const loadChatHTML = (chat, msgList, notme) => {
 			newothermsg[i].classList.remove('other-msg');
 		    newothermsg[i].classList.add('msg');		        
 		};
-		console.log('was me');
-	} else {
-		console.log('wasnt me');
-/*		const newmsg = newMsg.querySelectorAll('.msg');
-		const newothermsg = newMsg.querySelectorAll('.other-msg');
+	} 
 
-		for (let i = 0; i < newmsg.length; i++) {    // cycle through accordion headers
-			newmsg[i].classList.remove('msg');
-		    newmsg[i].classList.add('other-msg');
-		        
-		};
-		for (let i = 0; i < newothermsg.length; i++) {    // cycle through accordion headers
-			newothermsg[i].classList.remove('other-msg');
-		    newothermsg[i].classList.add('msg');		        
-		};*/
-
-	}
-
-	
 	console.log(localChatDB);
 
-	/*if (otherUser) {
-		newMsg.querySelector('.msg').classList.add('other-msg');
-		newMsg.querySelector('.msg').classList.remove('msg');
-	}*/
 }
 
 const triggerScroll = () => {
