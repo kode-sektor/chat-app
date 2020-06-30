@@ -61,6 +61,7 @@ tech.on('connection', function (socket) {
   	  /*Save current user's moniker on 'join' event. This will be used later to compare if its same 
   	  user on form 'submit' event. */
   		users[socket.id] = data.name; 
+      // console.log(users);
       users['room'] = data.room;
 
   		// Broadcast message (Load chats when user first joins room)
@@ -71,24 +72,29 @@ tech.on('connection', function (socket) {
   	        let chatsDB = loadChats('db.json');
   	        // console.log (chats);
 
+            // console.log(users[socket.id]);
   	        // load chats to only yourself (privately) to avoid displaying 2ce
-  	        socket.emit('load-chats', { chats : chatsDB[data.room] });
+  	        socket.emit('load-chats', { chats : chatsDB[data.room], user : users[socket.id] });
   		}
 
   	});
 
     socket.on('save-chat', (data) => {
-        console.log (users[socket.id]);
-    	  let chatsToSave = loadChats('db.json');
-    	  chatsToSave[users['room']].push(data.$msgHTMLDB);  // users['room'] is saved when user first joins room
-        saveChat(chatsToSave);
-
+        console.log(users[socket.id]);
+        /*if (users[socket.id] == data.moniker) {*/
+            let chatsToSave = loadChats('db.json');
+            // chatsToSave[users['room']].push(data.$msgHTMLDB);  // users['room'] is saved when user first joins room
+            chatsToSave = data.localChatDB;
+            console.log(chatsToSave);
+            saveChat(chatsToSave);
+        /*}*/
     });
 
 
     // Display message to everyone, including yourself
   	socket.on('message', (data) => {
-  		tech.in(data.room).emit('message', { message: data.chatMsg, otherName: users[socket.id], moniker: data.userMoniker});
+        console.log (users[socket.id], data.userMoniker);
+  		  tech.in(data.room).emit('message', { message: data.chatMsg, otherName: users[socket.id], moniker: data.userMoniker});
   	});
 
     socket.on('disconnect', () => {

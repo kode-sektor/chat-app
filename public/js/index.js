@@ -12,6 +12,7 @@ const timeHumanise = () => {
 
 	// Prefix with '0' if second is less than 10
 	(sec) = (sec.toString().length == '1') ? ('0' + sec) : sec;
+	(min) = (min.toString().length == '1') ? ('0' + min) : min;
 	return `<time class='chat-stamp' datetime='${hr}-${min}-${sec}'>${hr}:${min}:${sec} ${AMPM}</time>`;
 }
 
@@ -36,7 +37,7 @@ const meVsThey = (name) => {
 	return (userMoniker == name) ? true : false;
 }
 
-const loadChatHTML = (chat, msgList) => {
+const loadChatHTML = (chat, msgList, otherUser="false") => {
 
 	const newMsg = document.createElement('li');	// create li tag
 
@@ -45,6 +46,11 @@ const loadChatHTML = (chat, msgList) => {
 	// let $msgHTML = `<span class="user">${msgName}: </span>  ${msg.message} - ${timeHumanise()}`;
 	let $msgHTML = chat;
 	newMsg.innerHTML = $msgHTML;
+
+	/*if (otherUser) {
+		newMsg.querySelector('.msg').classList.add('other-msg');
+		newMsg.querySelector('.msg').classList.remove('msg');
+	}*/
 }
 
 const triggerScroll = () => {
@@ -83,21 +89,29 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 	});
 
 	// Fired on response to user joining room
-	socket.on('load-chats', (data) => {
-			console.log (data);
+	socket.on('load-chats', (data) => {/*
+		let currentUser = false;
+
 		if ((data.chats) != undefined) {
 			localChatDB = data.chats;	// Store the chat Array locally on connection
-			console.log (localChatDB);
-			console.log(typeof localChatDB);
+
 			(data.chats).forEach( (chat, indx) => {
 
-				loadChatHTML(chat, $msgList);
+				console.log(userMoniker, data.user);
+				if (userMoniker == data.user) {
+					currentUser = true;
+					alert ('true');
+				} else {
+					alert ('false');
+				}
+
+				loadChatHTML(chat, $msgList, currentUser);
 
 				if (indx == ((data.chats).length) - 1) {
 					triggerScroll();
 				}
 			});
-		}
+		}*/
 	});
 
 	// Listen to submission of chat and then emit message in room (everyone inc. you)
@@ -127,29 +141,12 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 			isTyping.remove();	// remove any notorious lingering '.is-typing'
 		}
 
-		/*NOTE:
-		  - Normally, when form is submitted, you want to save the chats in database.
-
-		  - And while it can save, the problem is it won't differentiate you from the
-		  2nd chatter on the server. Such logic only works on the front end (this 
-		  very index.js file.) 
-
-		  - So the best thing to do first emit the details of the current chatter like
-		  the current chat, the room, time moniker etc, and bring back the detail of the 
-		  second chatter (users.socked[id]), then do the logic on this file via the 
-		  exposed custom 'message' event just right below. 
-
-		  - Then after working on the logic, emit once again on a custom event 'save-chat', 
-		  the chat details and the room to be saved in the server database this time 
-		  around.
-
-		*/
 	});
 
 	socket.on('message', (data) => {
 		// Compare if the username emitted is the same as that which was collected
 		// from user input in dialogue modal form
-
+		let moniker = data.moniker;
 		let my = (meVsThey(data.otherName)) ? '' : 'other-';  // create new class for others
 		let msgName = (meVsThey(data.otherName)) ? 'You' : data.otherName;
 
@@ -161,11 +158,15 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 		loadChatHTML($msgHTMLDB, $msgList);
 		triggerScroll();
 
-		socket.emit('save-chat', {$msgHTMLDB, room});
+		// Now save to server database 
+
+		socket.emit('save-chat', {localChatDB});
 
 		// Save chat to local DB (as per the assignment requirement)
 		localChatDB[room].push({$msgHTMLDB});
-		// console.log(localChatDB);
+
+		console.log(localChatDB);
+
 	});
 
 

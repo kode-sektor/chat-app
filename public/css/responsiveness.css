@@ -11,7 +11,7 @@
 	.user {
 		font-size: 1em !important;
 	}
-	.msg {
+	.msg, .other-msg {
 		font-size: 1.2em;
 	}
 }
