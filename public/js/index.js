@@ -158,12 +158,11 @@ const connect = (name, chatRoom, moniker) => {	// called from connect.js
 		loadChatHTML($msgHTMLDB, $msgList);
 		triggerScroll();
 
-		// Now save to server database 
-
-		socket.emit('save-chat', {localChatDB});
-
-		// Save chat to local DB (as per the assignment requirement)
+		// First save chat to local DB (as per the assignment requirement)
 		localChatDB[room].push({$msgHTMLDB});
+
+		// Now save to server database 
+		socket.emit('save-chat', {localChatDB});
 
 		console.log(localChatDB);
 
