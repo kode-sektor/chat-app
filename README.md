@@ -1,4 +1,8 @@
-# Chat-app
+# Chat-app 
+
+HEROKU LINK : https://whats-a-pp-chat.herokuapp.com/
+
+<hr>
 
 ## The aim of this project is build a light-weight real-time chat application using NodeJS, Socket.io and Express
 
